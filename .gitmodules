@@ -1,0 +1,3 @@
+[submodule "node/node_modules/cuwire"]
+	path = node/node_modules/cuwire
+	url = https://github.com/apla/cuwire
