@@ -14,7 +14,8 @@ define(function (require, exports, module) {
 	    DocumentManager    = brackets.getModule("document/DocumentManager"),
 		ProjectManager     = brackets.getModule("project/ProjectManager"),
 		WorkspaceManager   = brackets.getModule('view/WorkspaceManager'),
-		PopUpManager       = brackets.getModule("widgets/PopUpManager");
+		PopUpManager       = brackets.getModule("widgets/PopUpManager"),
+		Strings            = brackets.getModule("strings");
 
 	var basicDialogMst     = require("text!assets/templates/basic-dialog.mst"),
 		boardModsMst       = require("text!assets/templates/board-mods.mst"),
@@ -169,18 +170,20 @@ define(function (require, exports, module) {
 			messageData.images.push ({src: boardMeta.imageUrl});
 		}
 
+		messageData.dlgClass = 'cuwire-board-image';
+		messageData.title    = this.board.name;
+		messageData.buttons  = [{
+			className: Dialogs.DIALOG_BTN_CLASS_PRIMARY,
+			id: Dialogs.DIALOG_BTN_OK,
+			text: Strings.OK
+		}];
+
 		// render cached mustache template
-		var message = boardMods (messageData);
+		var dialogBody = boardMods (messageData);
 
 		var formData = {};
 
-		var dlg = Dialogs.showModalDialog (
-			'cuwire-board-image',
-			this.board.name, // title
-			message // dialog body
-			// buttons, by default ok button
-			// autodismiss, true by default
-		).done ((function (buttonId) {
+		var dlg = Dialogs.showModalDialogUsingTemplate (dialogBody).done ((function (buttonId) {
 			if (buttonId === "ok") {
 				console.log (formData);
 				// CommandManager.execute("debug.refreshWindow");
