@@ -320,7 +320,7 @@ define(function (require, exports, module) {
 
 	CuWireExt.prototype.getBoardImage = function (boardId, platformName) {
 		var boardMeta = this.platforms[platformName].boards[boardId];
-		var boardImageUrl = require.toUrl ('./assets/board-images/'+boardId+'.jpg');
+		var boardImageUrl = require.toUrl ('./assets/board-images/'+boardId+'.svg');
 
 		boardMeta.imageUrl = boardImageUrl;
 
