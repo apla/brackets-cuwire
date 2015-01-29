@@ -27,7 +27,7 @@
 
 			theCuWire.on ('done', function () {
 //				console.log (theCuWire.folders);
-				cb (null, [theCuWire.boardData, theCuWire.folders]);
+				cb (null, [theCuWire.boardData, theCuWire.folders, theCuWire.hardware]);
 
 			});
 //		} else {

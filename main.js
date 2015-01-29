@@ -60,6 +60,18 @@ define(function (require, exports, module) {
 
 	}
 
+	CuWireExt.prototype.boardNameForPort = function (port) {
+		var usbPair = [port.vendorId, port.productId].join (':');
+
+		if (this.boardUSBMatch) {
+			var boardInfo = this.boardUSBMatch[usbPair];
+			if (boardInfo) {
+				port.boardInfo = boardInfo;
+				return '<b>'+boardInfo.board.name + '</b> ('+port.name+')';
+			}
+		}
+		return port.name;
+	}
 
 	CuWireExt.prototype.enumerateSerialPorts = function () {
 		// TODO: show spinner indicator
@@ -96,7 +108,7 @@ define(function (require, exports, module) {
 			// tr = $('<tr />').appendTo('#cuwire-panel tbody');
 
 			ports.forEach (function (port) {
-				$('<li><a href="#">'+port.name+"</a></li>")
+				$('<li><a href="#">'+self.boardNameForPort (port)+"</a></li>")
 				.on ('click', self.setPort.bind (self, port))
 				.appendTo(cuwirePortDD);
 			});
@@ -121,7 +133,13 @@ define(function (require, exports, module) {
 		} else {
 			prefs.set ('port', port);
 		}
-		$('#cuwire-panel button.cuwire-port').text (port.name.replace (/^\/dev\/(cu\.)?/, ""));
+
+		var portTitle = port.name.replace (/^\/dev\/(cu\.)?/, "");
+		if (port.boardInfo) {
+			portTitle = port.boardInfo.board.name + ' ('+portTitle+')';
+		}
+
+		$('#cuwire-panel button.cuwire-port').text (portTitle);
 	}
 
 	CuWireExt.prototype.showBoardInfo = function (boardId, platformName) {
@@ -385,8 +403,9 @@ define(function (require, exports, module) {
 		}
 		this.domain.exec("getBoardsMeta", locations, [])
 		.done(function (cuwireData) {
-			var platforms = cuwireData[0];
+			//var platforms = cuwireData[0];
 			var folders   = cuwireData[1];
+			var platforms = cuwireData[2];
 
 			var modernRuntimesCount = 0;
 
@@ -412,7 +431,8 @@ define(function (require, exports, module) {
 				self.showRuntimeDialog (dialogData, modernRuntimesCount);
 			}
 
-			self.platforms = platforms;
+			window.hwkv = self.platforms = platforms;
+			self.boardUSBMatch = {};
 
 			$('#cuwire-panel ul.cuwire-board li').remove();
 			// tr = $('<tr />').appendTo('#cuwire-panel tbody');
@@ -432,6 +452,19 @@ define(function (require, exports, module) {
 				var boards = platforms[platformName].boards;
 				Object.keys (boards).sort().map (function (boardId) {
 					var boardMeta = boards[boardId];
+
+					var usbIdIdx = 0;
+					while (boardMeta["vid."+usbIdIdx]) {
+						var usbPair = [boardMeta["vid."+usbIdIdx], boardMeta["pid."+usbIdIdx]].join (':');
+						self.boardUSBMatch[usbPair] = {
+							platform: platformName,
+							board:    {
+								id: boardId,
+								name: boardMeta.name
+							}
+						};
+						usbIdIdx ++;
+					}
 
 					self.getBoardImage (boardId, platformName);
 
