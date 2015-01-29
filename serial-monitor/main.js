@@ -63,6 +63,9 @@ requirejs (
 		});
 
 		var currentBaudrate;
+		if (localStorage.cuwireBaudrate) {
+			currentBaudrate = localStorage.cuwireBaudrate;
+		}
 
 		function setBaudRate (baudrate) {
 //			console.log (baudrate);
@@ -71,11 +74,15 @@ requirejs (
 			if (baudrate) {
 				titleButton.textContent = baudrate;
 				currentBaudrate = baudrate;
+				localStorage.cuwireBaudrate = currentBaudrate;
+			} else if (currentBaudrate) {
+				titleButton.textContent = currentBaudrate;
 			} else {
 				titleButton.textContent = "Baudrate";
 			}
 		}
 
+		setBaudRate ();
 		function enumerateSerialPorts () {
 			// TODO: show spinner indicator
 

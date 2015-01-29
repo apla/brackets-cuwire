@@ -534,7 +534,7 @@ define(function (require, exports, module) {
 		// cleanup log before next compile
 		$('#cuwire-panel .table-container table tbody tr').remove();
 
-		this.findSketchFolder ((function (err, folder) {
+		this.findSketchFolder ((function (err, folder, baudrate) {
 
 			this.domain.exec (mode, [
 				folder,
@@ -546,6 +546,8 @@ define(function (require, exports, module) {
 			.done ((function (size) {
 
 				this.changeStatusLabel (mode === 'upload' ? 'Uploaded!' : 'Compiled!', 'success');
+
+				localStorage.cuwireBaudrate = baudrate;
 
 			}).bind (this)).fail ((function (error) {
 
@@ -562,6 +564,13 @@ define(function (require, exports, module) {
 		}
 
 		return filename.substr(basePath.length);
+	}
+
+	function searchForBaudrate (contents) {
+		var m = contents.match (/Serial\.begin\s*\((\d+)\)/);
+		if (m) {
+			return m[1];
+		}
 	}
 
 	CuWireExt.prototype.findSketchFolder = function (cb) {
@@ -581,8 +590,10 @@ define(function (require, exports, module) {
 
 			// only one sketch within project dir, do it!
 			if (fileList.length === 1) {
-				var sketchFolderPath = fileList[0].parentPath;
-				cb (null, sketchFolderPath);
+				fileList[0].read (function (err, contents, stat) {
+					var sketchFolderPath = fileList[0].parentPath;
+					cb (null, sketchFolderPath, searchForBaudrate (contents));
+				})
 				return;
 			}
 
@@ -601,24 +612,27 @@ define(function (require, exports, module) {
 
 			// console.log (getRelativeFilename (projectRoot.fullPath, selectedFile.fullPath, openedFile.fullPath));
 
-			var currentSketchFolder;
+			var currentSketch;
 
 			fileList.every (function (inoFile) {
 				var sketchFolderPath = inoFile.parentPath;
 
 				if (openedFile && getRelativeFilename (sketchFolderPath, openedFilePath)) {
-					currentSketchFolder = sketchFolderPath;
+					currentSketch = openedFilePath;
 					return false;
 				} else if (selectedFile && getRelativeFilename (sketchFolderPath, selectedFilePath)) {
-					currentSketchFolder = sketchFolderPath;
+					currentSketch = selectedFile;
 					return false;
 				}
 				return true;
 			});
 
-			if (currentSketchFolder) {
+			if (currentSketch) {
 				// we have selected or opened file somewhere within sketch tree
-				cb (null, currentSketchFolder);
+				currentSketch.read (function (err, contents, stat) {
+					var sketchFolderPath = currentSketch.parentPath;
+					cb (null, sketchFolderPath, searchForBaudrate (contents));
+				});
 				return;
 			}
 
@@ -651,7 +665,10 @@ define(function (require, exports, module) {
 
 				var sketchIdx = parseInt (buttonMatch[1]);
 
-				cb (null, fileList[sketchIdx].parentPath);
+				fileList[sketchIdx].read (function (err, contents, stat) {
+					var sketchFolderPath = fileList[sketchIdx].parentPath;
+					cb (null, sketchFolderPath, searchForBaudrate (contents));
+				})
 
 			});
 
@@ -780,7 +797,7 @@ define(function (require, exports, module) {
 			var highlight = '';
 			if (payload && ("stderr" in payload)) {
 				highlight = 'error';
-                message += " " + (payload.stderr || payload.cmd)
+				message += " " + (payload.stderr || payload.cmd)
 			} else if (payload && payload.maxText) {
 //				var textSizeP = Math.round (payload.text / payload.maxText * 100);
 				createGradient ($('.pie.pie-text'), $('.pie-label.pie-text .value'), $('.pie-label.pie-text .full'), payload.text, payload.maxText);
