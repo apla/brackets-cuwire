@@ -30,7 +30,7 @@ define(function (require, exports, module) {
 	var getModulePath = ExtensionUtils.getModulePath.bind (ExtensionUtils, module);
 
 	// completion in another file, easy to move code to external project
-	var completion = require ([getModulePath ('completion.js')], function (completion) {
+	var completion = require ([getModulePath ('completion/main.js')], function (completion) {
 
 	});
 

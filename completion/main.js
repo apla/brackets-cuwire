@@ -16,7 +16,7 @@ define(function (require, exports, module) {
 		Commands            = brackets.getModule('command/Commands'),
 		CommandManager      = brackets.getModule('command/CommandManager');
 
-	var ClangDomain = new NodeDomain ("clang", ExtensionUtils.getModulePath (module, "node/clang-domain.js"));
+	var ClangDomain = new NodeDomain ("clang", ExtensionUtils.getModulePath (module, "../node/clang-domain.js"));
 
 	function Clang (require, domain) {
 //		this.domain = domain;
