@@ -180,3 +180,12 @@ form#cuwire-board-mod label {
 .cuwire-sketch-select li:hover {
 	background-color: white;
 }
+
+.cuwire-board-image .modal-body {
+	width: 100%;
+	padding: 0;
+}
+
+.cuwire-board-image .dialog-message {
+	padding: 15px;
+}
