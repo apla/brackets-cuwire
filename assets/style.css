@@ -45,6 +45,12 @@
 	font-size: larger;
 }
 
+#cuwire-panel .table-container td {
+	-webkit-user-select: initial;
+	user-select: initial;
+}
+
+
 
 #cuwire-panel ul.dropdown-menu {
 	height: auto;
