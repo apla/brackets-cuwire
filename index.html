@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Brackets-cuwire : Brackets plugin for Arduino">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Brackets-cuwire</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/apla/brackets-cuwire">View on GitHub</a>
+
+          <h1 id="project_title">Brackets-cuwire</h1>
+          <h2 id="project_tagline">Brackets plugin for Arduino</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/apla/brackets-cuwire/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/apla/brackets-cuwire/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="-cuwire-ide-for-microcontrollers" class="anchor" href="#-cuwire-ide-for-microcontrollers" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<img width="40px" src="assets/logo.svg"> cuwire: IDE for microcontrollers</h1>
+
+<p>This is a <a href="http://brackets.io">Brackets</a> plugin, which provides an <a href="http://arduino.cc">Arduino</a>-like
+environement for editing, compiling and uploading sketches. Current version supports
+Arduino 3rd party hardware spec. The plugin was written by Ivan Baktsheev in 2014.</p>
+
+<p>Brackets is a new generation code editor, based on HTML5 and JS. This plugin will provide same functionality
+as Arduino IDE to write code and upload it to the microcontroller. The plugin was written in pure javascript,
+and it will probably runs on Windows, Mac OS X, and Linux (untested). A additional libraries like
+<a href="https://github.com/voodootikigod/node-serialport">serialport</a> is used in this plugin,
+the codes are belonging to their own authors. Precompiled versions of those libraries is included along with
+plugin distribution.</p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<h4>
+<a id="1-brackets" class="anchor" href="#1-brackets" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. <a href="http://brackets.io">Brackets</a>
+</h4>
+
+<p>Developed and tested under version 1.0</p>
+
+<h4>
+<a id="2-arduino" class="anchor" href="#2-arduino" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. <a href="http://arduino.cc/en/Main/Software">Arduino</a>
+</h4>
+
+<p>You need an Arduino IDE version 1.5 and later</p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Please install using plugin manager</p>
+
+<p>After installation, coil icon <img src="assets/logo.svg" alt="logo"> will appear on sidebar</p>
+
+<h2>
+<a id="set-arduino-install-location" class="anchor" href="#set-arduino-install-location" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set Arduino Install Location</h2>
+
+<p>Arduino default locations for hardware and libraries will be scanned automatically.</p>
+
+<ul>
+<li><p>On Mac OS X <code>/Applications/Arduino.app</code></p></li>
+<li><p>On Windows <code>C:\Program Files\Arduino</code></p></li>
+<li><p>User's <code>Documents/Arduino</code> directory</p></li>
+</ul>
+
+<p>You can add non-standard Arduino IDE location using preferences.</p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Compilation and Upload</li>
+<li>Board images</li>
+<li>Multiple sketches in one project
+*</li>
+</ul>
+
+<h2>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<h3>
+<a id="serial-monitor" class="anchor" href="#serial-monitor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Serial Monitor</h3>
+
+<p>Scan code for a proper baud rate.</p>
+
+<h3>
+<a id="settings" class="anchor" href="#settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Settings</h3>
+
+<p>Setting custom location for IDE</p>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h3>
+
+<p>Searchable examples</p>
+
+<h3>
+<a id="libraries" class="anchor" href="#libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Libraries</h3>
+
+<p>Search and add libraries without IDE reload</p>
+
+<h3>
+<a id="ide-features" class="anchor" href="#ide-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>IDE features</h3>
+
+<p>Code completion, quick edit, compilation errors highlight in code</p>
+
+<h3>
+<a id="external-programmer-support" class="anchor" href="#external-programmer-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>External programmer support</h3>
+
+<h3>
+<a id="bootloader-burn" class="anchor" href="#bootloader-burn" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bootloader burn</h3>
+
+<h3>
+<a id="additional-hardware-toolchain-installation" class="anchor" href="#additional-hardware-toolchain-installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional hardware toolchain installation</h3>
+
+<h2>
+<a id="hardware-supported" class="anchor" href="#hardware-supported" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hardware supported</h2>
+
+<p>This project based on <a href="https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification">Arduino IDE 3rd party hardware specification</a>.</p>
+
+<p>Compilation and upload is tested without issues on:</p>
+
+<ul>
+<li>Atmel AVR: Arduino Uno, Arduino Mega 2560, Arduino Pro mini clone with USB-UART adapter;</li>
+<li>Atmel ARM: Arduino Due</li>
+<li>Nordic ARM: Rfduino (<a href="https://github.com/apla/brackets-cuwire/wiki/platform:-RFDuino">HOWTO</a>)</li>
+</ul>
+
+<h2>
+<a id="issues" class="anchor" href="#issues" aria-hidden="true"><span class="octicon octicon-link"></span></a>Issues</h2>
+
+<p>If you meet any problems, you can leave messages at <a href="https://github.com/apla/brackets-cuwire/issues">Issues</a>.</p>
+
+<h4>
+<a id="known-issues" class="anchor" href="#known-issues" aria-hidden="true"><span class="octicon octicon-link"></span></a>Known Issues:</h4>
+
+<h6>
+<a id="1-build-process" class="anchor" href="#1-build-process" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Build Process</h6>
+
+<p>The build process is almost similar to <a href="http://arduino.cc/en/Hacking/BuildProcess">Arduino Build Process</a>.
+A number of things have to happen for your Arduino code to get onto the Arduino board.
+First, plugin performs some small transformations to make sure that the code is correct C or C++
+(two common programming languages). It then gets passed to a compiler (avr-gcc),
+which turns the human readable code into machine readable instructions (or object files).
+Then, your code gets combined with (linked against), the standard Arduino libraries
+that provide basic functions like digitalWrite() or Serial.print().
+The result is a single hex file, which contains the specific bytes that need to be written
+to the program memory of the chip on the Arduino board. This file is then uploaded to the board:
+transmitted over the USB or serial connection via the bootloader already on the chip
+or with external programming hardware.</p>
+
+<ul>
+<li>Multi-file sketches</li>
+</ul>
+
+<p>A sketch can contain one <code>.ino</code> or <code>.pde</code> file and multiple files with extensions of <code>.c</code>, <code>.cpp</code> and <code>.h</code>.
+Before your sketch is compiled, <code>.ino</code> or <code>.pde</code> file is transformed to form the "main sketch file".
+Files with <code>.c</code>, <code>.cpp</code> or extensions are compiled separately. To use files with a .h extension,
+you need to <code>#include</code> it (using "double quotes" not angle brackets).</p>
+
+<ul>
+<li>Transformations to the main sketch file</li>
+</ul>
+
+<p>Plugin performs a few transformations to your main sketch file before passing it to the compiler.</p>
+
+<p>First, <code>#include "Arduino.h"</code> is added just before first program statement. This header file
+(found in <code>&lt;ARDUINO&gt;/hardware/cores/&lt;CORE&gt;/</code>) includes all the defintions needed for the standard Arduino core.</p>
+
+<p>Next, plugin searches for function definitions within your main sketch file and creates declarations
+(prototypes) for them. These are inserted just after <code>Arduino.h</code>. This means that if you want to use
+a custom type as a function argument, you should declare it within a separate header file.
+Also, this generation isn't perfect: it won't create prototypes for functions that have default argument values,
+or which are declared within a namespace or class.</p>
+
+<p><a href="http://arduino.cc">Arduino IDE</a> and <a href="">Stino plugin for SublimeText</a> works slightly different.
+Arduino IDE append every file without extension to the main sketch file, Stino does the same for
+all files with <code>.ino</code> or <code>.pde</code> extension. This is bad practice, <code>cuwire</code> doesn't support that.
+If you want to build a modular app, please use <code>.c*</code> and <code>.h</code> files, this behavior is supported in every IDE.</p>
+
+<ul>
+<li>Build process</li>
+</ul>
+
+<p>First, plugin reads <code>boards.txt</code> and <code>platform.txt</code> within <code>&lt;ARDUINO_APP&gt;/hardware</code> and <code>&lt;USER_DOCUMENTS&gt;/Arduino/hardware</code>
+folders to generate recipes for build and upload.</p>
+
+<h6>
+<a id="2-add-libraries" class="anchor" href="#2-add-libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Add libraries</h6>
+
+<p>Copy the library folder to the <code>&lt;USER_DOCUMENTS&gt;/Arduino/libraries/</code> folder.</p>
+
+<h6>
+<a id="3-add-new-hardware-platforms" class="anchor" href="#3-add-new-hardware-platforms" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Add new hardware platforms</h6>
+
+<p>Copy the core folder to the <code>&lt;USER_DOCUMENTS&gt;/Arduino/hardware/</code> folder.</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions
+of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.</p>
+
+<h2>
+<a id="about-the-author" class="anchor" href="#about-the-author" aria-hidden="true"><span class="octicon octicon-link"></span></a>About The Author</h2>
+
+<p><a href="http://apla.me">apla.me</a></p>
+
+<h2>
+<a id="website" class="anchor" href="#website" aria-hidden="true"><span class="octicon octicon-link"></span></a>Website</h2>
+
+<p>GitHub (<a href="http://github.com/apla/">http://github.com/apla/</a>)</p>
+
+<p>Sublime Text Plugin (<a href="https://github.com/Robot-Will/Stino">https://github.com/Robot-Will/Stino</a>)</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Brackets-cuwire maintained by <a href="https://github.com/apla">apla</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-59158239-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
