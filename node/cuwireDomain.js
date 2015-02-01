@@ -208,24 +208,21 @@
 			return;
 		}
 
-		if (!serialport)
-			return;
-
 		var err, result = [];
-		serialport.list(function (err, ports) {
-			ports.forEach(function(port) {
+		CuWireSerial.list (function (err, ports) {
+			if (err)
+				return cb(err);
+			ports.forEach (function (port) {
 				result.push ({
 					name:         port.comName,
 					manufacturer: port.manufacturer,
 					vendorId:     port.vendorId,
 					productId:    port.productId,
-					serial:       port.serial,
+					serialNumber: port.serialNumber,
 					connected:    (port.comName in serialComms) ? true : false
 				});
-//				console.log(port.comName);
-//				console.log(port.pnpId);
-//				console.log(port.manufacturer);
 			});
+
 			cb (err, result);
 		});
 

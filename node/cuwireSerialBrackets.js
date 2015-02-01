@@ -1,6 +1,6 @@
 var util = require ('util');
 
-var CuwireSerial = require ('cuwire/console');
+var CuwireSerial = require ('cuwire/serial');
 
 function CuwireSerialBrackets (options) {
 }
