@@ -193,20 +193,13 @@
 
 		var cb = arguments[arguments.length-1];
 
-		var serialport;
-		try {
-			// https://github.com/voodootikigod/node-serialport
-			// HOWTO built THAT on mac (got idea from https://github.com/jasonsanjose/brackets-sass/tree/master/node):
-			// 1) cd <extension-folder>/node; npm install node-gyp node-pre-gyp serialport
-			// 2) cd node_modules/serialport
-			// 3) /Applications/devel/Brackets.app/Contents/MacOS/Brackets-node ../../node_modules/node-pre-gyp/bin/node-pre-gyp --arch=ia32 rebuild
+		// https://github.com/voodootikigod/node-serialport
+		// HOWTO built THAT on mac (got idea from https://github.com/jasonsanjose/brackets-sass/tree/master/node):
+		// 1) cd <extension-folder>/node; npm install node-gyp node-pre-gyp serialport
+		// 2) cd node_modules/serialport
+		// 3) /Applications/devel/Brackets.app/Contents/MacOS/Brackets-node ../../node_modules/node-pre-gyp/bin/node-pre-gyp --arch=ia32 rebuild
 
-			// current binaries got from http://node-serialport.s3.amazonaws.com
-			serialport = require("serialport");
-		} catch (e) {
-			cb ("cannot load serialport module"+e);
-			return;
-		}
+		// current binaries got from http://node-serialport.s3.amazonaws.com
 
 		var err, result = [];
 		CuWireSerial.list (function (err, ports) {

@@ -109,7 +109,10 @@ define(function (require, exports, module) {
 			// tr = $('<tr />').appendTo('#cuwire-panel tbody');
 
 			ports.forEach (function (port) {
-				$('<li><a href="#">'+self.boardNameForPort (port)+"</a></li>")
+				$('<li><a href="#">'
+				  +self.boardNameForPort (port)
+				  + (port.manufacturer ? ' - <i>'+port.manufacturer+'</i>' : "")
+				  +"</a></li>")
 				.on ('click', self.setPort.bind (self, port))
 				.appendTo(cuwirePortDD);
 			});
