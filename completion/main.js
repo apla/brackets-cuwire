@@ -363,6 +363,19 @@ define(function (require, exports, module) {
 	* @param {string} functionName
 	*/
 	function FileLocation(fullPath, lineFrom, chFrom, lineTo, chTo, functionDesc, functionName) {
+		if (fullPath && fullPath.from && fullPath.to) {
+			this.fullPath = fullPath.fullPath;
+			this.lineFrom = fullPath.from.line;
+			this.chFrom   = fullPath.from.char;
+			this.lineTo   = fullPath.to.line;
+			this.chTo     = fullPath.to.char;
+			this.offsetFrom   = fullPath.from.offset;
+			this.offsetTo     = fullPath.to.offset;
+			this.functionName = fullPath.function.name;
+			this.functionDesc = fullPath.function.proto;
+			this.functionNS = fullPath.function.ns;
+			return;
+		}
 		this.fullPath = fullPath;
 		this.lineFrom = lineFrom;
 		this.chFrom   = chFrom;
@@ -439,7 +452,7 @@ define(function (require, exports, module) {
 
 		var lastCommentBeforeFunction = 0;
 
-		var functionRe = /^([\s\n\r]*)((unsigned|signed|static)[\s\n\r]+)?(void|int|char|short|long|float|double|word|bool)[\s\n\r]+(\w+)[\s\n\r]*\(([^\)]*)\)[\s\n\r]*\{/gm;
+		var functionRe = /^([\s\n\r]*)((unsigned|signed|static)[\s\n\r]+)?(void|int|char|short|long|float|double|word|bool)[\s\n\r]+(\w+\:\:)?(\w+)[\s\n\r]*\(([^\)]*)\)[\s\n\r]*\{/gm;
 		while ((matchArray = functionRe.exec (source)) !== null) {
 			var skip = false;
 			// TODO: comments stored in
@@ -464,18 +477,32 @@ define(function (require, exports, module) {
 			// matchArray.index
 //			funcs.push ();
 
-			var functionName = matchArray[5];
+			var functionNS = matchArray[5];
 
-			var functionProto = [matchArray[2] || "", matchArray[4], matchArray[5], '('+matchArray[6]+')'].join (" ");
+			var functionName = matchArray[6];
+
+			var functionArgs = matchArray[7];
+
+			var functionProto = [matchArray[2] || "", matchArray[4], functionName, '('+functionArgs+')'].join (" ");
 
 			// no more whitespace
 			var posFrom = posFromIndex (source, matchArray.index + matchArray[1].length);
 			// remove curly brackets
 			var posTo   = posFromIndex (source, matchArray.index + matchArray[0].length - 1);
 
-			funcs.push(new FileLocation(null, posFrom.line, posFrom.ch, posTo.line, posTo.ch, functionProto, functionName));
-			funcs[funcs.length - 1].offsetFrom = matchArray.index + matchArray[1].length;
-			funcs[funcs.length - 1].offsetTo   = matchArray.index + matchArray[0].length;
+			funcs.push(new FileLocation({
+				from: {
+					line: posFrom.line, char: posFrom.ch, offset: matchArray.index + matchArray[1].length
+				},
+				to: {
+					line: posTo.line, char: posTo.ch, offset: matchArray.index + matchArray[0].length
+				},
+				function: {
+					proto: functionProto,
+					name: functionName,
+					ns: functionNS
+				},
+			}));
 
 			//console.log (matchArray[1] || "", matchArray[3], matchArray[4], '(', matchArray[5], ');');
 		}
