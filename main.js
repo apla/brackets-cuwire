@@ -449,6 +449,11 @@ define(function (require, exports, module) {
 			}
 
 			Object.keys (platforms).sort().forEach (function (platformName) {
+				if (!platforms.hasOwnProperty(platformName)) return;
+				if (!platforms[platformName].platform) {
+					console.error ("not a platform:", platformName);
+					return;
+				}
 				// console.log (platformName);
 				$('<li class="dropdown-header">'
 				  + platforms[platformName].platform.name + " "
@@ -458,6 +463,11 @@ define(function (require, exports, module) {
 				var boards = platforms[platformName].boards;
 				Object.keys (boards).sort().map (function (boardId) {
 					var boardMeta = boards[boardId];
+					if (!boards.hasOwnProperty(boardId)) return;
+					if (!boards[boardId].name) {
+						console.error ("not a board:", boardId);
+						return;
+					}
 
 					var usbIdIdx = 0;
 					while (boardMeta["vid."+usbIdIdx]) {
