@@ -83,8 +83,29 @@ requirejs (
 		}
 
 		setBaudRate ();
+
+		var boardUSBMatch;
+		if (localStorage.boardUSBMatch) {
+			boardUSBMatch = JSON.parse (localStorage.boardUSBMatch);
+		}
+
+		function boardNameForPort (port) {
+			var usbPair = [port.vendorId, port.productId].join (':');
+
+			if (boardUSBMatch) {
+				var boardInfo = boardUSBMatch[usbPair];
+				if (boardInfo) {
+					port.boardInfo = boardInfo;
+					return '<b>'+boardInfo.board.name + '</b> ('+port.name+')';
+				}
+			}
+			return port.name;
+		}
+
 		function enumerateSerialPorts () {
 			// TODO: show spinner indicator
+
+			var self = this;
 
 			var cuwirePortDD = $('#cuwire-panel ul.cuwire-port');
 			if (!portEnumSub) {
@@ -118,8 +139,11 @@ requirejs (
 				// tr = $('<tr />').appendTo('#cuwire-panel tbody');
 
 				ports.forEach (function (port) {
-					$('<li><a href="#">'+port.name+"</a></li>")
-					.on ('click', setPort.bind (this, port))
+					$('<li><a href="#">'
+					  + boardNameForPort (port)
+					  + (port.manufacturer ? ' - <i>'+port.manufacturer+'</i>' : "")
+					  +"</a></li>")
+					.on ('click', setPort.bind (self, port))
 					.appendTo(cuwirePortDD);
 					if (port.name === window.location.qs.serialPort) {
 						setPort (port);

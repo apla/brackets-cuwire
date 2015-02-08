@@ -513,6 +513,9 @@ define(function (require, exports, module) {
 
 				});
 			});
+
+			localStorage.boardUSBMatch = JSON.stringify (self.boardUSBMatch);
+
 			self.setBoard();
 		}).fail(function (err) {
 			// TODO: show error indicator
