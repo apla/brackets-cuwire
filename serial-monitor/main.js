@@ -168,11 +168,24 @@ requirejs (
 
 			cuwireDomain.on ('serialMessage', function (event, message) {
 
-				(preNode.lastChild || preNode).textContent += message;
+				var lastChild = preNode.lastChild;
+				if (!lastChild || lastChild.nodeType !== 3) {
+					preNode.appendChild (document.createTextNode (message));
+				} else {
+					lastChild.textContent += message;
+				}
 				setTimeout (function () {
 					preNode.parentElement.scrollTop = preNode.parentElement.scrollHeight;
 				}, 0);
 
+			});
+
+			cuwireDomain.on ('serialPortClose', function (event, message) {
+				connectButton.textContent = "Connect";
+				var div = document.createElement ('div');
+				div.className = 'mark';
+				div.textContent = new Date ().toLocaleString() + ' serial port is closed';
+				preNode.appendChild (div);
 			});
 
 			var clearButton = document.querySelector ('button.cuwire-log-clear');
@@ -186,6 +199,7 @@ requirejs (
 				div.className = 'mark';
 				div.textContent = new Date ().toLocaleString();
 				preNode.appendChild (div);
+
 			}, false)
 
 
@@ -206,6 +220,10 @@ requirejs (
 					currentBaudrate
 				]).done (function (ports) {
 					connectButton.textContent = "Disconnect";
+					var div = document.createElement ('div');
+					div.className = 'mark';
+					div.textContent = new Date ().toLocaleString() + ' serial port is opened';
+					preNode.appendChild (div);
 				}).fail (function (err) {
 					// TODO: show error indicator
 					console.error("[brackets-cuwire-node] failed to run cuwire.openSerialPort, error:", err);

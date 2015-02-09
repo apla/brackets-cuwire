@@ -231,6 +231,11 @@
 		var port     = params.shift();
 		var baudrate = params.shift();
 
+		var portName = port;
+		if (port && port.name) {
+			portName = port.name;
+		}
+
 		// TODO: need to make decision
 		// 1) support multiple serial connections
 		// 2) only one connection, close previous before connecting to new one
@@ -240,18 +245,21 @@
 		var cuwireSerial = new CuWireSerial.brackets ();
 		cuwireSerial.on ('data', _domainManager.emitEvent.bind (_domainManager, 'cuwire', 'serialMessage'));
 
-		cuwireSerial.on ('error', (function () {
-			delete serialComms[params.port];
-			// TODO: emit something
+		cuwireSerial.on ('error', (function (err) {
+			delete serialComms[portName];
+			console.log ('serial port error');
+			_domainManager.emitEvent ('cuwire', 'serialPortClose', err);
 		}).bind (this));
 
-		if (port && port.name) {
-			port = port.name;
-		}
+		cuwireSerial.on ('close', (function (err) {
+			delete serialComms[portName];
+			console.log ('serial port is closed');
+			_domainManager.emitEvent ('cuwire', 'serialPortClose', err);
+		}).bind (this));
 
-		cuwireSerial.open (port, baudrate, cb);
+		cuwireSerial.open (portName, baudrate, cb);
 
-		serialComms[port] = cuwireSerial;
+		serialComms[portName] = cuwireSerial;
 	}
 
 	function closeSerialPort (params) {
@@ -261,8 +269,11 @@
 //		var portName = params.shift();
 //		if (params.port in serialComms) {
 			var cuwireSerial = serialComms[portName];
-			cuwireSerial.removeAllListeners ();
-			cuwireSerial.close ();
+			if (!cuwireSerial)
+				continue;
+			cuwireSerial.close (function (error) {
+				// I don't care about closing errors for now
+			});
 			delete serialComms[portName];
 		}
 		cb && cb ();
@@ -473,6 +484,15 @@
 				name: "message",
 				type: "string",
 				description: "message"
+			}]
+		);
+		domainManager.registerEvent(
+			"cuwire",     // domain name
+			"serialPortClose",         // event name
+			[{
+				name: "error",
+				type: "object",
+				description: "error"
 			}]
 		);
 	}

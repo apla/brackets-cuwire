@@ -15,7 +15,8 @@ CuwireSerialBrackets.prototype.onOpen = function (sp, cb) {
 
 	this.port = sp;
 
-	this.emit ('log', scope, 'Console open, use Ctr-c to exit.\r\n');
+	// TODO: use 1k buffer for data with submission on over 1k, \n
+	// or 50msec timeout
 
 	this.port.on ('data', (function (buf) {
 		this.emit ('data', buf.toString());

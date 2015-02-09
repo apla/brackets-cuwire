@@ -32,11 +32,14 @@ h1, h2, h3 {margin-left: 10px;}
 	white-space: pre-wrap;
 	border: 0;
 	background: transparent;
+	-webkit-user-select: initial;
+	user-select: initial;
 }
 
 .log-wrapper .mark {
 	color: #f5f5f5;
 	background-color: #333;
+	padding: 3px 5px;
 }
 
 #cuwire-panel button.with-plug {
