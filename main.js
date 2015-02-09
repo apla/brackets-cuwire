@@ -16,6 +16,10 @@ define(function (require, exports, module) {
 		WorkspaceManager   = brackets.getModule('view/WorkspaceManager'),
 		PopUpManager       = brackets.getModule("widgets/PopUpManager"),
 		Strings            = brackets.getModule("strings");
+		CommandManager     = brackets.getModule('command/CommandManager'),
+		Commands           = brackets.getModule('command/Commands'),
+		EditorManager      = brackets.getModule('editor/EditorManager'),
+		FileSystem         = brackets.getModule('filesystem/FileSystem');
 
 	var basicDialogMst     = require("text!assets/templates/basic-dialog.mst"),
 		boardModsMst       = require("text!assets/templates/board-mods.mst"),
@@ -848,7 +852,14 @@ define(function (require, exports, module) {
 //			console.log (message);
 
 			var highlight = '';
-			if (payload && ("stderr" in payload)) {
+			if (payload && payload.files && payload.files.length) {
+				highlight = 'error';
+				message = ["compilation failed. command: " + payload.cmd];
+				// console.log (paint.cuwire(), 'compilation failed:')
+				payload.files.forEach (function (fileDesc) {
+					message.push ({file: fileDesc[1], line: fileDesc[2], ch: fileDesc[3], error: fileDesc[4]});
+				});
+			} else if (payload && ("stderr" in payload)) {
 				highlight = 'error';
 				message += " " + (payload.stderr || payload.cmd)
 			} else if (payload && payload.maxText) {
@@ -862,7 +873,42 @@ define(function (require, exports, module) {
 				highlight = 'done';
 			}
 
-			$('#cuwire-panel .table-container table tbody').append ("<tr class=\""+highlight+"\"><td>"+scope+"</td><td>"+message+"</td></tr>");
+			if (message.constructor !== Array) {
+				message = [message];
+			}
+			message.forEach (function (m) {
+				var mInline = m;
+				if (m.error) {
+					mInline = [m.file, m.line, m.ch].join (':') + ' <b>'+m.error+'</b>';
+				}
+				var domTableRow = $("<tr class=\""+highlight+"\"><td>"+scope+"</td><td>"+mInline+"</td></tr>");
+				$('#cuwire-panel .table-container table tbody').append (domTableRow);
+				if (m.error) {
+					domTableRow.on ('click', function () {
+						console.log (m, payload.sketchFolder)
+						// TODO: dirty
+						FileSystem.resolve (payload.sketchFolder + '/' + m.file, function (err, fileObj, stat) {
+							if (err)
+								return;
+							var editor = EditorManager.getCurrentFullEditor ();
+							if (editor.getFile().fullPath !== fileObj.fullPath) {
+								CommandManager.execute(Commands.FILE_OPEN, {fullPath: payload.sketchFolder + m.file}).done(function () {
+									EditorManager.getFocusedEditor();
+									console.log (m.line - 1, m.ch - 1);
+									editor.setCursorPos(m.line - 1, m.ch - 1, true, false);
+									editor.focus();
+									// result.resolve (true);
+								});
+							} else {
+								console.log (m.line - 1, m.ch - 1);
+								editor.setCursorPos(m.line - 1, m.ch - 1, true, false);
+								editor.focus();
+							}
+						});
+					});
+				}
+			});
+
 			var scrollableContainer = $('#cuwire-panel .table-container')[0];
 			setTimeout (function () {
 				scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
