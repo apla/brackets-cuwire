@@ -191,8 +191,8 @@ define(function (require, exports, module) {
 				console.log (formData);
 				// CommandManager.execute("debug.refreshWindow");
 				var boardMod = {};
-				if ("menu" in boardMeta) {
-					for (var modType in boardMeta.menu) {
+				if ("models" in boardMeta) {
+					for (var modType in boardMeta.models) {
 						boardMod[modType] = formData[modType];
 						if (!boardMod[modType]) {
 							console.error ('board modification', modType, 'not defined, continue with caution');
@@ -316,7 +316,8 @@ define(function (require, exports, module) {
 
 	CuWireExt.prototype.selectBoardMod = function (boardId, platformName) {
 		var boardMeta = this.platforms[platformName].boards[boardId];
-		if (!("menu" in boardMeta)) {
+		console.log (boardMeta);
+		if (!("models" in boardMeta)) {
 			this.setBoard (boardId, platformName);
 			return;
 		}
@@ -489,15 +490,15 @@ define(function (require, exports, module) {
 					boardItem.on ('click', self.selectBoardMod.bind (self, boardId, platformName));
 
 					var boardDesc = boardMeta.name + ' (' + boardId
-					if ("menu" in boardMeta) {
-						boardDesc += ', modifications: ';
+					if ("models" in boardMeta) {
+						boardDesc += ', models: ';
 						var variants = [];
 
 						boardMeta.mods = [];
 						var modDesc = {};
 						boardMeta.mods.push (modDesc);
 
-						for (var modType in boardMeta.menu) {
+						for (var modType in boardMeta.models) {
 							// TODO: use description from arduino menu
 							modDesc.typeTitle = modType;
 							modDesc.typeId    = modType;
@@ -505,8 +506,8 @@ define(function (require, exports, module) {
 
 							variants.push (modType+':');
 							var idx = 0;
-							for (var mod in boardMeta.menu[modType]) {
-								var modTitle = boardMeta.menu[modType][mod][modType + "_modification"];
+							for (var mod in boardMeta.models[modType]) {
+								var modTitle = boardMeta.models[modType][mod][""];
 								variants.push (modTitle);
 								modDesc.modList.push ({modTitle: modTitle, modId: mod, index: idx});
 								idx++;
