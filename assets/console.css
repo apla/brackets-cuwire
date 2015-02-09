@@ -33,6 +33,12 @@ h1, h2, h3 {margin-left: 10px;}
 	border: 0;
 	background: transparent;
 }
+
+.log-wrapper .mark {
+	color: #f5f5f5;
+	background-color: #333;
+}
+
 #cuwire-panel button.with-plug {
 	padding-left: 24px;
 	background: url(../assets/i/plug.svg) 4px 4px no-repeat #e5e9e9;

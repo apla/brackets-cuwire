@@ -168,12 +168,26 @@ requirejs (
 
 			cuwireDomain.on ('serialMessage', function (event, message) {
 
-				preNode.textContent += message;
+				(preNode.lastChild || preNode).textContent += message;
 				setTimeout (function () {
 					preNode.parentElement.scrollTop = preNode.parentElement.scrollHeight;
 				}, 0);
 
 			});
+
+			var clearButton = document.querySelector ('button.cuwire-log-clear');
+			clearButton.addEventListener ('click', function () {
+				preNode.innerHTML = '';
+			}, false)
+
+			var markButton = document.querySelector ('button.cuwire-log-mark');
+			markButton.addEventListener ('click', function () {
+				var div = document.createElement ('div');
+				div.className = 'mark';
+				div.textContent = new Date ().toLocaleString();
+				preNode.appendChild (div);
+			}, false)
+
 
 			connectButton.addEventListener ('click', function () {
 				if (connectButton.textContent === "Disconnect") {
