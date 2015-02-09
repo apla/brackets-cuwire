@@ -404,9 +404,9 @@ define(function (require, exports, module) {
 		if (prefs.get ('arduino-ide')) {
 			locations.push (prefs.get ('arduino-ide'));
 		}
-		if (prefs.get ('energia-ide')) {
-			locations.push (prefs.get ('energia-ide'));
-		}
+//		if (prefs.get ('energia-ide')) {
+//			locations.push (prefs.get ('energia-ide'));
+//		}
 		this.domain.exec("getBoardsMeta", locations, [])
 		.done(function (cuwireData) {
 			//var platforms = cuwireData[0];
