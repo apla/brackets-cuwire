@@ -671,7 +671,7 @@ define(function (require, exports, module) {
 				var sketchFolderPath = inoFile.parentPath;
 
 				if (openedFile && getRelativeFilename (sketchFolderPath, openedFilePath)) {
-					currentSketch = openedFilePath;
+					currentSketch = openedFile;
 					return false;
 				} else if (selectedFile && getRelativeFilename (sketchFolderPath, selectedFilePath)) {
 					currentSketch = selectedFile;
