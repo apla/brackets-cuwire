@@ -605,25 +605,38 @@ define(function (require, exports, module) {
 
 		this.findSketchFolder ((function (err, folder, baudrate) {
 
-			this.domain.exec (mode, [
-				folder,
-				platformName,
-				boardId,
-				boardMod || {},
-				options || {}
-			])
-			.done ((function (size) {
+			// TODO: add preference to disable this behaviour
+			if (mode === "upload") {
+				this.domain.exec ("closeSerialPort", [
+					options.serial.port
+				]).done (
+					this.compileOrUploadRunDomain.bind (this, mode, folder, platformName, boardId, boardMod, options, baudrate)
+				);
+			} else {
+				this.compileOrUploadRunDomain (mode, folder, platformName, boardId, boardMod, options, baudrate)
+			}
+		}).bind (this));
+	}
 
-				this.changeStatusLabel (mode === 'upload' ? 'Uploaded!' : 'Compiled!', 'success');
+	CuWireExt.prototype.compileOrUploadRunDomain = function (mode, folder, platformName, boardId, boardMod, options, baudrate) {
+		this.domain.exec (mode, [
+			folder,
+			platformName,
+			boardId,
+			boardMod || {},
+			options || {}
+		])
+		.done ((function (size) {
 
-				localStorage.cuwireBaudrate = baudrate;
+			this.changeStatusLabel (mode === 'upload' ? 'Uploaded!' : 'Compiled!', 'success');
 
-			}).bind (this)).fail ((function (error) {
+			localStorage.cuwireBaudrate = baudrate;
 
-				this.changeStatusLabel ('Failed', 'failure');
+		}).bind (this)).fail ((function (error) {
 
-				console.log (error);
-			}).bind (this));
+			this.changeStatusLabel ('Failed', 'failure');
+
+//			console.log (error);
 		}).bind (this));
 	}
 
