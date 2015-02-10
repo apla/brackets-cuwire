@@ -29,9 +29,9 @@ define(function (require, exports, module) {
 	app.appReady(function(){
 		//		$(brackets.getModule('document/DocumentManager')).on('documentSaved', onDocumentSaved);
 
-		var theClang = new Clang (require, ClangDomain);
-
-		console.log ("clang ready");
+//		var theClang = new Clang (require, ClangDomain);
+//
+//		console.log ("clang ready");
 	});
 
 	/**
