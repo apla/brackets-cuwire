@@ -265,9 +265,10 @@
 	function closeSerialPort (params) {
 		var cb = arguments[arguments.length - 1];
 		for (var portName in serialComms) {
-//      TODO: uncomment for multiple connections
-//		var portName = params.shift();
-//		if (params.port in serialComms) {
+			if (params && params[0] && (params[0].name ? params[0].name !== portName : params[0] !== portName)) {
+				continue;
+			}
+
 			var cuwireSerial = serialComms[portName];
 			if (!cuwireSerial)
 				continue;
