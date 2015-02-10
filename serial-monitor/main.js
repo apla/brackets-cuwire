@@ -102,6 +102,8 @@ requirejs (
 			return port.name;
 		}
 
+		var connectButton = document.querySelector ('button.cuwire-com-connect');
+
 		function enumerateSerialPorts () {
 			// TODO: show spinner indicator
 
@@ -121,8 +123,6 @@ requirejs (
 				//			});
 				portEnumSub = true;
 			}
-
-			var connectButton = document.querySelector ('button.cuwire-com-connect');
 
 			$('<li><a href="#">Updating</a></li>').appendTo(cuwirePortDD);
 
@@ -164,96 +164,99 @@ requirejs (
 				console.error("[brackets-cuwire-node] failed to run cuwire.enumerateSerialPorts, error:", err);
 			});
 
-			var preNode = document.querySelector ('.log-wrapper pre');
-
-			cuwireDomain.on ('serialMessage', function (event, message) {
-
-				var lastChild = preNode.lastChild;
-				if (!lastChild || lastChild.nodeType !== 3) {
-					preNode.appendChild (document.createTextNode (message));
-				} else {
-					lastChild.textContent += message;
-				}
-				setTimeout (function () {
-					preNode.parentElement.scrollTop = preNode.parentElement.scrollHeight;
-				}, 0);
-
-			});
-
-			cuwireDomain.on ('serialPortClose', function (event, message) {
-				connectButton.textContent = "Connect";
-				var div = document.createElement ('div');
-				div.className = 'mark';
-				div.textContent = new Date ().toLocaleString() + ' serial port is closed';
-				preNode.appendChild (div);
-			});
-
-			var clearButton = document.querySelector ('button.cuwire-log-clear');
-			clearButton.addEventListener ('click', function () {
-				preNode.innerHTML = '';
-			}, false)
-
-			var markButton = document.querySelector ('button.cuwire-log-mark');
-			markButton.addEventListener ('click', function () {
-				var div = document.createElement ('div');
-				div.className = 'mark';
-				div.textContent = new Date ().toLocaleString();
-				preNode.appendChild (div);
-
-			}, false)
-
-
-			connectButton.addEventListener ('click', function () {
-				if (connectButton.textContent === "Disconnect") {
-					cuwireDomain.exec ("closeSerialPort", [
-						currentPort
-					]).done (function (ports) {
-						connectButton.textContent = "Connect";
-					}).fail(function (err) {
-						// TODO: show error indicator
-						console.error("[brackets-cuwire-node] failed to run cuwire.openSerialPort, error:", err);
-					});
-					return;
-				}
-				cuwireDomain.exec ("openSerialPort", [
-					currentPort,
-					currentBaudrate
-				]).done (function (ports) {
-					connectButton.textContent = "Disconnect";
-					var div = document.createElement ('div');
-					div.className = 'mark';
-					div.textContent = new Date ().toLocaleString() + ' serial port is opened';
-					preNode.appendChild (div);
-				}).fail (function (err) {
-					// TODO: show error indicator
-					console.error("[brackets-cuwire-node] failed to run cuwire.openSerialPort, error:", err);
-				});
-
-			}, false);
-
-			var sendButton = document.querySelector ('button.cuwire-com-send');
-			// little dirty
-			var messageInput = sendButton.previousElementSibling;
-
-			sendButton.addEventListener ('click', function () {
-				sendMessageSerial (currentPort, messageInput.value);
-				messageInput.select ();
-			}, false);
-
-
-			messageInput.addEventListener ('keyup', function (evt) {
-//				console.log (evt.keyCode);
-				if (evt.keyCode === 13) {
-					sendMessageSerial (currentPort, messageInput.value);
-					messageInput.select ();
-					return false;
-				}
-//				var commandText = sendButton.previousElementSibling.value;
-//
-			}, false);
 		}
 
 		enumerateSerialPorts();
+
+		var preNode = document.querySelector ('.log-wrapper pre');
+
+		cuwireDomain.on ('serialMessage', function (event, message) {
+
+			var lastChild = preNode.lastChild;
+			if (!lastChild || lastChild.nodeType !== 3) {
+				preNode.appendChild (document.createTextNode (message));
+			} else {
+				lastChild.textContent += message;
+			}
+			setTimeout (function () {
+				preNode.parentElement.scrollTop = preNode.parentElement.scrollHeight;
+			}, 0);
+
+		});
+
+		function appendMark (text, cls, haveDate) {
+			var div = document.createElement ('div');
+			div.classList.add ('mark');
+			if (cls) div.classList.add (cls);
+			div.textContent = [
+				(haveDate === undefined || haveDate) ? new Date ().toLocaleString() + ' ' : null,
+				text
+			].join ('');
+			preNode.appendChild (div);
+		}
+
+		cuwireDomain.on ('serialPortClose', function (event, message) {
+			connectButton.textContent = "Connect";
+			appendMark ('serial port is closed');
+		});
+
+		var clearButton = document.querySelector ('button.cuwire-log-clear');
+		clearButton.addEventListener ('click', function () {
+			preNode.innerHTML = '';
+		}, false)
+
+
+		var markButton = document.querySelector ('button.cuwire-log-mark');
+		markButton.addEventListener ('click', function () {
+			appendMark ();
+		}, false)
+
+		// don't use button title, move to state machine
+		connectButton.addEventListener ('click', function () {
+			if (connectButton.textContent === "Disconnect") {
+				cuwireDomain.exec ("closeSerialPort", [
+					currentPort
+				]).done (function (ports) {
+					connectButton.textContent = "Connect";
+				}).fail(function (err) {
+					// TODO: show error indicator
+					console.error("[brackets-cuwire-node] failed to run cuwire.openSerialPort, error:", err);
+				});
+				return;
+			}
+			cuwireDomain.exec ("openSerialPort", [
+				currentPort,
+				currentBaudrate
+			]).done (function (ports) {
+				connectButton.textContent = "Disconnect";
+				appendMark ('serial port is opened');
+			}).fail (function (err) {
+				// TODO: show error indicator
+				console.error("[brackets-cuwire-node] failed to run cuwire.openSerialPort, error:", err);
+			});
+
+		}, false);
+
+		var sendButton = document.querySelector ('button.cuwire-com-send');
+		// little dirty
+		var messageInput = sendButton.previousElementSibling;
+
+		sendButton.addEventListener ('click', function () {
+			sendMessageSerial (currentPort, messageInput.value);
+			messageInput.select ();
+			appendMark (messageInput.value, "tx", false);
+		}, false);
+
+
+		messageInput.addEventListener ('keyup', function (evt) {
+			if (evt.keyCode === 13) {
+				sendMessageSerial (currentPort, messageInput.value);
+				messageInput.select ();
+				appendMark (messageInput.value, "tx", false);
+				return false;
+			}
+		}, false);
+
 });
 
 function sendMessageSerial (port, commandText) {

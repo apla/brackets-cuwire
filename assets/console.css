@@ -40,7 +40,15 @@ h1, h2, h3 {margin-left: 10px;}
 	color: #f5f5f5;
 	background-color: #333;
 	padding: 3px 5px;
+	margin-left: -5px;
 }
+
+.log-wrapper .mark.tx {
+	background-color: #b9e5e5;
+	color: initial;
+	font-weight: bold;
+}
+
 
 #cuwire-panel button.with-plug {
 	padding-left: 24px;
