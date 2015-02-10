@@ -605,15 +605,17 @@ define(function (require, exports, module) {
 
 		this.findSketchFolder ((function (err, folder, baudrate) {
 
+			var domainRunner = this.compileOrUploadRunDomain.bind (this, mode, folder, platformName, boardId, boardMod, options, baudrate);
+
 			// TODO: add preference to disable this behaviour
 			if (mode === "upload") {
 				this.domain.exec ("closeSerialPort", [
 					options.serial.port
 				]).done (
-					this.compileOrUploadRunDomain.bind (this, mode, folder, platformName, boardId, boardMod, options, baudrate)
+					domainRunner
 				);
 			} else {
-				this.compileOrUploadRunDomain (mode, folder, platformName, boardId, boardMod, options, baudrate)
+				domainRunner();
 			}
 		}).bind (this));
 	}
