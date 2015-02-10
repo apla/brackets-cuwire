@@ -15,7 +15,7 @@ define(function (require, exports, module) {
 		ProjectManager     = brackets.getModule("project/ProjectManager"),
 		WorkspaceManager   = brackets.getModule('view/WorkspaceManager'),
 		PopUpManager       = brackets.getModule("widgets/PopUpManager"),
-		Strings            = brackets.getModule("strings");
+		Strings            = brackets.getModule("strings"),
 		CommandManager     = brackets.getModule('command/CommandManager'),
 		Commands           = brackets.getModule('command/Commands'),
 		EditorManager      = brackets.getModule('editor/EditorManager'),
@@ -178,7 +178,7 @@ define(function (require, exports, module) {
 		}
 
 		messageData.dlgClass = 'cuwire-board-image';
-		messageData.title    = this.board.name;
+		messageData.title    = boardMeta.name;
 		messageData.buttons  = [{
 			className: Dialogs.DIALOG_BTN_CLASS_PRIMARY,
 			id: Dialogs.DIALOG_BTN_OK,
@@ -226,7 +226,7 @@ define(function (require, exports, module) {
 					}
 				} else {
 					// select appropriate inputs from prefs
-					if (theBoard.mod[typeId] && theBoard.mod[typeId] === modId) {
+					if (theBoard && theBoard.mod && theBoard.mod[typeId] && theBoard.mod[typeId] === modId) {
 						$(this).prop("checked", true);
 					}
 				}
@@ -571,10 +571,22 @@ define(function (require, exports, module) {
 
 	CuWireExt.prototype.compileOrUpload = function (mode) {
 		var boardMeta = prefs.get ('board');
-		var boardId = boardMeta[0];
+
+		if (!boardMeta) {
+			Dialogs.showModalDialog (
+				'',
+				'Board not defined',
+				'Please select board using dropdown in cuwire panel'
+			).done (function () {
+
+			});
+			return;
+		}
+
+		var boardId      = boardMeta[0];
 		var platformName = boardMeta[1];
-		var boardMod  = boardMeta[2];
-		var options = {};
+		var boardMod     = boardMeta[2];
+		var options      = {};
 
 		if (mode === 'upload') {
 			options.serial = {
