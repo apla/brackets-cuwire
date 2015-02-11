@@ -3,11 +3,12 @@
 		<div class="control-group">
 			<label class="control-label" for="cuwire-pref-arduinoIDE">Arduino IDE location</label>
 			<input id="cuwire-pref-arduinoIDE" name="arduinoIDE" value="{{arduinoIDE}}"/>
+			<a class="location btn">Choose…</a>
 		</div>
-		<div class="control-group">
+		<!--div class="control-group">
 			<label class="control-label" for="cuwire-pref-energiaIDE">Energia IDE location</label>
 			<input id="cuwire-pref-energiaIDE" name="energiaIDE" value="{{energiaIDE}}"/>
-		</div>
+		</div-->
 		<div class="control-group">
 			<input id="cuwire-pref-verbose" name="verbose" value="true" type="checkbox"/>
 			<label class="control-label" for="cuwire-pref-verbose">be verbose</label>

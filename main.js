@@ -794,6 +794,25 @@ define(function (require, exports, module) {
 
 		var theBoard = this.board;
 
+		var locationSelect = $("#cuwire-settings-panel a.location.btn");
+		locationSelect.on ('click', function (evt) {
+			var inputWrapper = evt.currentTarget.parentNode;
+			FileSystem.showOpenDialog (
+				false, // allowMultipleSelection,
+				navigator.platform === "MacIntel" ? false : true, // chooseDirectories,
+				inputWrapper.querySelector('label').textContent, // title,
+				null, // initialPath,
+				null, // fileTypes,
+				function (err, fileList) {
+					var inputEl = inputWrapper.querySelector('input');
+					if (fileList.length === 1) {
+						inputEl.value = fileList[0];
+						formData = getFormFields (inputEl.form);
+					}
+				}.bind (this)
+			);
+		}.bind (this));
+
 		var boardPrefInputs = $("#cuwire-settings-panel input");
 		// WTF: there is little delay between actual rendering and request to create an dom nodes
 		// setTimeout (function () {
@@ -806,7 +825,7 @@ define(function (require, exports, module) {
 
 		// }, 100);
 
-		boardPrefInputs.change (function() {
+		boardPrefInputs.on ('input', function() {
 			var formEl = $(this)[0].form;
 			formData = getFormFields (formEl);
 		});
