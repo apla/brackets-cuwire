@@ -244,8 +244,7 @@ define(function (require, exports, module) {
 		boardModInputs.change (function() {
 			var formEl = $(this)[0].form;
 			formData = getFormFields (formEl);
-			console.log (formData);
-			console.log ($(this).attr('name'), $(this).attr('value'));
+//			console.log (formData);
 		});
 
 
@@ -293,7 +292,10 @@ define(function (require, exports, module) {
 
 			// TODO: multiple checkboxes value for one form field
 			if (formField.type === 'radio' || formField.type === 'checkbox') {
-				if (formField.value === fieldsData[formField.name]) {
+				if (
+					formField.value === fieldsData[formField.name]
+					|| formField.value === fieldsData[formField.name].toString()
+				) {
 					formField.checked = true;
 				}
 			} else {
@@ -302,15 +304,30 @@ define(function (require, exports, module) {
 		}
 	}
 
-	function getFormFields (formEl) {
-		var formData = {};
+	function bindFormToData (formEl, formData) {
+		[].slice.apply (formEl.elements).forEach (function (el) {
+			if (el.type.match (/^(?:radio|checkbox)$/)) {
+				el.addEventListener ('change', getFormFields.bind (window, formEl, formData), false);
+			} else {
+				el.addEventListener ('input', getFormFields.bind (window, formEl, formData), false);
+			}
+		});
+	}
+
+	function getFormFields (formEl, formData) {
+		formData = formData || {};
+		for (var k in formData) {
+			delete formData[k];
+		}
 		for (var i = 0; i < formEl.elements.length; i ++) {
 			var formField = formEl.elements[i];
 			var checkedType = formField.type.match (/^(?:radio|checkbox)$/);
+			console.log (formField.name, 'checked type:', checkedType, 'checked:', formField.checked, 'xx', ((checkedType && formField.checked) || !checkedType));
 			if ((checkedType && formField.checked) || !checkedType) {
 				formData[formField.name] = formField.value;
 			}
 		}
+		// console.log (formData);
 		return formData;
 	}
 
