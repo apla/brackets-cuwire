@@ -408,7 +408,10 @@ define(function (require, exports, module) {
 //		if (prefs.get ('energia-ide')) {
 //			locations.push (prefs.get ('energia-ide'));
 //		}
-		this.domain.exec("getBoardsMeta", locations, [])
+
+		var options = {};
+
+		this.domain.exec("getBoardsMeta", locations, [], options)
 		.done(function (cuwireData) {
 			//var platforms = cuwireData[0];
 			var folders   = cuwireData[1];

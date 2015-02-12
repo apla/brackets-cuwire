@@ -18,17 +18,16 @@
 
 	var theCuWire;
 
-	function getBoardsMeta (runtimeFolders, sketchesFolder) {
+	function getBoardsMeta (runtimeFolders, sketchesFolder, options) {
 
 		var cb = arguments[arguments.length-1];
 
 //		if (!theCuWire) {
-			theCuWire = new CuWireData (runtimeFolders, sketchesFolder, true);
+			theCuWire = new CuWireData (runtimeFolders, sketchesFolder, true, options);
 
 			theCuWire.on ('done', function () {
 //				console.log (theCuWire.folders);
 				cb (null, [theCuWire.boardData, theCuWire.folders, theCuWire.hardware]);
-
 			});
 //		} else {
 //			cb (null, theCuWire.boardData);
