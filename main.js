@@ -16,9 +16,6 @@ define(function (require, exports, module) {
 		WorkspaceManager   = brackets.getModule('view/WorkspaceManager'),
 		PopUpManager       = brackets.getModule("widgets/PopUpManager"),
 		Strings            = brackets.getModule("strings"),
-		CommandManager     = brackets.getModule('command/CommandManager'),
-		Commands           = brackets.getModule('command/Commands'),
-		EditorManager      = brackets.getModule('editor/EditorManager'),
 		FileSystem         = brackets.getModule('filesystem/FileSystem');
 
 	var basicDialogMst     = require("text!assets/templates/basic-dialog.mst"),
@@ -35,9 +32,8 @@ define(function (require, exports, module) {
 	var getModulePath = ExtensionUtils.getModulePath.bind (ExtensionUtils, module);
 
 	// completion in another file, easy to move code to external project
-	var completion = require ([getModulePath ('completion/main.js')], function (completion) {
-
-	});
+	var completion    = require ('completion/main');
+	var BracketsTools = require ('src/BracketsTools');
 
 	var prefs = PreferencesManager.getExtensionPrefs (moduleId);
 
@@ -850,6 +846,51 @@ define(function (require, exports, module) {
 		var serialWindow = window.open (serialMonUrl, "brackets-cuwire-serial", "width=" + 1000 + ",height=" + 500);
 	}
 
+	CuWireExt.prototype.logMessage = function (event, scope, message, payload) {
+		var highlight = '';
+		if (payload && payload.files && payload.files.length) {
+			highlight = 'error';
+			message = ["compilation failed. command: " + payload.cmd];
+			// console.log (paint.cuwire(), 'compilation failed:')
+			payload.files.forEach (function (fileDesc) {
+				message.push ({file: fileDesc[1], line: fileDesc[2], ch: fileDesc[3], error: fileDesc[4]});
+			});
+		} else if (payload && ("stderr" in payload)) {
+			highlight = 'error';
+			message += " " + (payload.stderr || payload.cmd)
+		} else if (payload && payload.maxText) {
+//			var textSizeP = Math.round (payload.text / payload.maxText * 100);
+			createGradient ($('.pie.pie-text'), $('.pie-label.pie-text .value'), $('.pie-label.pie-text .full'), payload.text, payload.maxText);
+//			var dataSizeP = Math.round (payload.data / (payload.maxData || payload.data) * 100);
+			createGradient ($('.pie.pie-data'), $('.pie-label.pie-data .value'), $('.pie-label.pie-data .full'), payload.data, payload.maxData);
+			// createGradient ($('.pie-eeprom'), percentageDegrees (0), 0);
+
+		} else if (message.match (/^done(?:\s|$)/)) {
+			highlight = 'done';
+		}
+
+		if (message.constructor !== Array) {
+			message = [message];
+		}
+		message.forEach (function (m) {
+			var mInline = m;
+			if (m.error) {
+				mInline = [m.file, m.line, m.ch].join (':') + ' <b>'+m.error+'</b>';
+			}
+			var domTableRow = $("<tr class=\""+highlight+"\"><td>"+scope+"</td><td>"+mInline+"</td></tr>");
+			$('#cuwire-panel .table-container table tbody').append (domTableRow);
+			if (m.error) {
+				domTableRow.on ('click', BracketsTools.jumpToFile.bind (BracketsTools, [payload.sketchFolder, m.file], m.line - 1, m.ch - 1));
+			}
+		});
+
+		var scrollableContainer = $('#cuwire-panel .table-container')[0];
+		setTimeout (function () {
+			scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+		}, 0);
+
+	}
+
 	CuWireExt.prototype.createUI = function (require) {
 
 		var myIcon = $("<a href=\"#\" id=\"cuwire-sidebar-icon\"></a>");
@@ -894,73 +935,7 @@ define(function (require, exports, module) {
 		var settingsButton = $('#cuwire-panel button.cuwire-settings');
 		settingsButton.on ('click', this.showSettings.bind (this));
 
-		this.domain.on ('log', function (event, scope, message, payload) {
-//			console.log (message);
-
-			var highlight = '';
-			if (payload && payload.files && payload.files.length) {
-				highlight = 'error';
-				message = ["compilation failed. command: " + payload.cmd];
-				// console.log (paint.cuwire(), 'compilation failed:')
-				payload.files.forEach (function (fileDesc) {
-					message.push ({file: fileDesc[1], line: fileDesc[2], ch: fileDesc[3], error: fileDesc[4]});
-				});
-			} else if (payload && ("stderr" in payload)) {
-				highlight = 'error';
-				message += " " + (payload.stderr || payload.cmd)
-			} else if (payload && payload.maxText) {
-//				var textSizeP = Math.round (payload.text / payload.maxText * 100);
-				createGradient ($('.pie.pie-text'), $('.pie-label.pie-text .value'), $('.pie-label.pie-text .full'), payload.text, payload.maxText);
-//				var dataSizeP = Math.round (payload.data / (payload.maxData || payload.data) * 100);
-				createGradient ($('.pie.pie-data'), $('.pie-label.pie-data .value'), $('.pie-label.pie-data .full'), payload.data, payload.maxData);
-				// createGradient ($('.pie-eeprom'), percentageDegrees (0), 0);
-
-			} else if (message.match (/^done(?:\s|$)/)) {
-				highlight = 'done';
-			}
-
-			if (message.constructor !== Array) {
-				message = [message];
-			}
-			message.forEach (function (m) {
-				var mInline = m;
-				if (m.error) {
-					mInline = [m.file, m.line, m.ch].join (':') + ' <b>'+m.error+'</b>';
-				}
-				var domTableRow = $("<tr class=\""+highlight+"\"><td>"+scope+"</td><td>"+mInline+"</td></tr>");
-				$('#cuwire-panel .table-container table tbody').append (domTableRow);
-				if (m.error) {
-					domTableRow.on ('click', function () {
-						console.log (m, payload.sketchFolder)
-						// TODO: dirty
-						FileSystem.resolve (payload.sketchFolder + '/' + m.file, function (err, fileObj, stat) {
-							if (err)
-								return;
-							var editor = EditorManager.getCurrentFullEditor ();
-							if (editor.getFile().fullPath !== fileObj.fullPath) {
-								CommandManager.execute(Commands.FILE_OPEN, {fullPath: payload.sketchFolder + m.file}).done(function () {
-									EditorManager.getFocusedEditor();
-									console.log (m.line - 1, m.ch - 1);
-									editor.setCursorPos(m.line - 1, m.ch - 1, true, false);
-									editor.focus();
-									// result.resolve (true);
-								});
-							} else {
-								console.log (m.line - 1, m.ch - 1);
-								editor.setCursorPos(m.line - 1, m.ch - 1, true, false);
-								editor.focus();
-							}
-						});
-					});
-				}
-			});
-
-			var scrollableContainer = $('#cuwire-panel .table-container')[0];
-			setTimeout (function () {
-				scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
-			}, 0);
-
-		});
+		this.domain.on ('log', this.logMessage.bind (this));
 	}
 
 
