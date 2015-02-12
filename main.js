@@ -381,6 +381,11 @@ define(function (require, exports, module) {
 			manyRuntimes: modernRuntimesCount > 1,
 		});
 
+		console.log (
+			"runtime:", folders,
+			"modernRuntimesCount:", modernRuntimesCount
+		);
+
 		Dialogs.showModalDialog (
 			"cuwire-runtime-select",
 			"Runtime issue:",
