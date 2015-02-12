@@ -431,7 +431,10 @@ define(function (require, exports, module) {
 //			locations.push (prefs.get ('energia-ide'));
 //		}
 
-		var options = {};
+		var options = {
+			debug: true
+
+		};
 
 		this.domain.exec("getBoardsMeta", locations, [], options)
 		.done(function (cuwireData) {
