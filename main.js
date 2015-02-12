@@ -373,7 +373,7 @@ define(function (require, exports, module) {
 		})
 	}
 
-	CuWireExt.prototype.showRuntimeDialog = function (folders, modernRuntimesCount) {
+	CuWireExt.prototype.showRuntimeDialog = function (folders, modernRuntimesCount, rawFolders) {
 
 		var message = runtimeSelectRenderer ({
 			runtime: folders,
@@ -382,7 +382,7 @@ define(function (require, exports, module) {
 		});
 
 		console.log (
-			"runtime:", folders,
+			"runtime:", JSON.stringify (rawFolders, null, "\t"),
 			"modernRuntimesCount:", modernRuntimesCount
 		);
 
@@ -460,7 +460,7 @@ define(function (require, exports, module) {
 			}).bind (this));
 
 			if (modernRuntimesCount !== 1) {
-				self.showRuntimeDialog (dialogData, modernRuntimesCount);
+				self.showRuntimeDialog (dialogData, modernRuntimesCount, folders);
 			}
 
 			window.hwkv = self.platforms = platforms;
