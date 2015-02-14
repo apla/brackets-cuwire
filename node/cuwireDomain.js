@@ -91,7 +91,7 @@
 
 		compiler.on ('error', function (err) {
 //			console.log ('error', err);
-			_domainManager.emitEvent ('cuwire', 'log', [err.scope, err.toString(), err]);
+			_domainManager.emitEvent ('cuwire', 'error', [err.scope, err.toString(), err]);
 			cb (err);
 		});
 
@@ -158,7 +158,7 @@
 
 			uploader.on ('error', function (err) {
 //				console.log ('error', err);
-				_domainManager.emitEvent ('cuwire', 'log', [err.scope, err.toString(), err]);
+				_domainManager.emitEvent ('cuwire', 'error', [err.scope, err.toString(), err]);
 				cb (err);
 			});
 		});
@@ -170,7 +170,7 @@
 
 		compiler.on ('error', function (err) {
 			console.log ('error', err);
-			_domainManager.emitEvent ('cuwire', 'log', [err.scope, err.toString(), err]);
+			_domainManager.emitEvent ('cuwire', 'error', [err.scope, err.toString(), err]);
 			cb (err);
 		});
 
@@ -463,6 +463,23 @@
 		domainManager.registerEvent(
 			"cuwire",     // domain name
 			"log",         // event name
+			[{
+				name: "scope",
+				type: "string",
+				description: "message scope"
+			}, {
+				name: "message",
+				type: "string",
+				description: "log string"
+			}, {
+				name: "payload",
+				type: "object",
+				description: "log message payload"
+			}]
+		);
+		domainManager.registerEvent(
+			"cuwire",     // domain name
+			"error",         // event name
 			[{
 				name: "scope",
 				type: "string",
