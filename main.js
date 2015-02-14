@@ -440,11 +440,10 @@ define(function (require, exports, module) {
 
 		};
 
-		this.domain.exec("getBoardsMeta", locations, [], options)
+		this.domain.exec("getHardware", locations, [], options)
 		.done(function (cuwireData) {
-			//var platforms = cuwireData[0];
+			var platforms = cuwireData[0];
 			var folders   = cuwireData[1];
-			var platforms = cuwireData[2];
 
 			var modernRuntimesCount = 0;
 

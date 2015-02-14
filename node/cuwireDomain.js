@@ -18,7 +18,7 @@
 
 	var theCuWire;
 
-	function getBoardsMeta (runtimeFolders, sketchesFolder, options) {
+	function getHardware (runtimeFolders, sketchesFolder, options) {
 
 		var cb = arguments[arguments.length-1];
 
@@ -27,7 +27,7 @@
 
 			theCuWire.on ('done', function () {
 //				console.log (theCuWire.folders);
-				cb (null, [theCuWire.boardData, theCuWire.folders, theCuWire.hardware]);
+				cb (null, [theCuWire.hardware, theCuWire.folders]);
 			});
 //		} else {
 //			cb (null, theCuWire.boardData);
@@ -379,8 +379,8 @@
 		);
 		domainManager.registerCommand(
 			"cuwire",       // domain name
-			"getBoardsMeta",    // command name
-			getBoardsMeta,   // command handler function
+			"getHardware",    // command name
+			getHardware,   // command handler function
 			true,          // this command is asynchronous in Node
 			"get cuwire boards metadata",
 			[{
