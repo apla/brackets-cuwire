@@ -326,7 +326,6 @@ define(function (require, exports, module) {
 		for (var i = 0; i < formEl.elements.length; i ++) {
 			var formField = formEl.elements[i];
 			var checkedType = formField.type.match (/^(?:radio|checkbox)$/);
-			console.log (formField.name, 'checked type:', checkedType, 'checked:', formField.checked, 'xx', ((checkedType && formField.checked) || !checkedType));
 			if ((checkedType && formField.checked) || !checkedType) {
 				formData[formField.name] = formField.value;
 			}
