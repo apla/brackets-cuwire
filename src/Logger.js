@@ -52,7 +52,7 @@ define(function (require, exports, module) {
 		var message = ["compilation failed. command: " + payload.cmd];
 		// console.log (paint.cuwire(), 'compilation failed:')
 		payload.files.forEach (function (fileDesc) {
-			message.push ({file: fileDesc[1], line: fileDesc[2], ch: fileDesc[3], error: fileDesc[4]});
+			message.push ({file: fileDesc[1], line: fileDesc[2], ch: fileDesc[3] || 1, error: fileDesc[4]});
 		});
 
 		this.appendMessage (scope, highlight, message, payload);
