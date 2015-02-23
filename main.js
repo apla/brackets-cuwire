@@ -207,6 +207,12 @@ define(function (require, exports, module) {
 			}
 		}).bind (this));
 
+		var boardImg = document.querySelector ('#board-image-tab img');
+		if (boardImg) {
+			boardImg.style.height = boardImg.parentElement.parentElement.clientHeight - 30 + 'px';
+			boardImg.style.margin =  "0 " + parseInt((boardImg.parentElement.parentElement.clientWidth - boardImg.width)/2) + "px";
+		}
+
 		var theBoard = this.board;
 
 		var boardModInputs = $("#cuwire-board-mod input");
