@@ -22,7 +22,7 @@ define(function (require, exports, module) {
 			console.log (line, ch);
 			if (editor.getFile().fullPath !== fileObj.fullPath) {
 				CommandManager.execute(Commands.FILE_OPEN, fileObj).done(function () {
-					EditorManager.getFocusedEditor();
+					var editor = EditorManager.getFocusedEditor();
 					editor.setCursorPos(line, ch, true, false);
 					editor.focus();
 					// result.resolve (true);
