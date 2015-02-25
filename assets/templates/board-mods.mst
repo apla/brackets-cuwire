@@ -12,11 +12,14 @@
 		<div class="dialog-message">
 			<div class="tab-content" style="height: 400px;">
 				<div class="tab-pane {{infoActive}}" id="board-info-tab">
-					{{#mods}}
-					<h3>Select board modification:</h3>
+					<h3>
+						{{#modsCount}}Select board modification:{{/modsCount}}
+						{{^mods}}Board has no modifications{{/mods}}
+					</h3>
 					<form id="cuwire-board-mod">
+					{{#mods}}
 						<fieldset>
-							<p>{{typeTitle}}</p>
+							<h4>{{typeTitle}}</h4>
 							{{#modList}}
 							<div>
 								<input type="radio" id="{{typeId}}{{modId}}" name="{{typeId}}" value="{{modId}}"/>
@@ -24,11 +27,10 @@
 							</div>
 							{{/modList}}
 						</fieldset>
+
+					{{/mods}}
 					</form>
-					{{/mods}}
-					{{^mods}}
-					<h3>Board has no modifications</h3>
-					{{/mods}}
+
 				</div>
 				<div class="tab-pane {{imageActive}}" id="board-image-tab">
 					{{#images}}

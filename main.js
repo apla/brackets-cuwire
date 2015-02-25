@@ -170,6 +170,7 @@ define(function (require, exports, module) {
 
 		var boardMeta = this.platforms[platformName].boards[boardId];
 		messageData.mods = boardMeta.mods;
+		messageData.modsCount = boardMeta.mods.length;
 
 		// imageOK is null when image not found, is undefined when image loading
 		// and true if image cached successfully
@@ -526,19 +527,20 @@ define(function (require, exports, module) {
 					boardItem.on ('click', self.selectBoardMod.bind (self, boardId, platformName));
 
 					var boardDesc = boardMeta.name + ' (' + boardId
+
 					if ("models" in boardMeta) {
 						boardDesc += ', models: ';
 						var variants = [];
-
 						boardMeta.mods = [];
-						var modDesc = {};
-						boardMeta.mods.push (modDesc);
+
 
 						for (var modType in boardMeta.models) {
 							// TODO: use description from arduino menu
-							modDesc.typeTitle = modType;
-							modDesc.typeId    = modType;
-							modDesc.modList   = [];
+							var modDesc = {
+								typeTitle: modType,
+								typeId:    modType,
+								modList:   [],
+							};
 
 							variants.push (modType+':');
 							var idx = 0;
@@ -548,14 +550,16 @@ define(function (require, exports, module) {
 								modDesc.modList.push ({modTitle: modTitle, modId: mod, index: idx});
 								idx++;
 							}
+							boardMeta.mods.push (modDesc);
 						}
+
 
 						boardDesc += variants.join (" ");
 
 					}
 					boardDesc += ')';
 					if (self.verbose)
-						console.log (boardDesc);
+						console.log (boardDesc, boardMeta);
 
 
 				});
