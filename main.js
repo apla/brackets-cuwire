@@ -537,7 +537,7 @@ define(function (require, exports, module) {
 						for (var modType in boardMeta.models) {
 							// TODO: use description from arduino menu
 							var modDesc = {
-								typeTitle: modType,
+								typeTitle: boardMeta.menuNames[modType] || modType,
 								typeId:    modType,
 								modList:   [],
 							};
