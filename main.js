@@ -217,48 +217,49 @@ define(function (require, exports, module) {
 
 		var theBoard = this.board;
 
-		var boardModInputs = $("#cuwire-board-mod input");
+		var boardModInputs = document.querySelectorAll ("form#cuwire-board-mod input");
+		var boardModForm   = document.querySelector ("form#cuwire-board-mod");
+
+		function formChanged () {
+			formData = getFormFields (boardModForm);
+		}
+
 		// WTF: there is little delay between actual rendering and request to create an dom nodes
 		// setTimeout (function () {
-			boardModInputs = $("#cuwire-board-mod input");
+			boardModInputs = document.querySelectorAll ("form#cuwire-board-mod input");
+
 
 			// if we had a new board, then we need to discard previous settings
 			// TODO: use setFormFields
-			boardModInputs.each (function (idx) {
-				var typeId = $(this).attr('name');
-				var modId  = $(this).attr('value');
+			[].slice.apply (boardModInputs).forEach (function (inputEl, idx) {
+				var typeId = inputEl.name;
+				var modId  = inputEl.value;
 				if (newBoard) {
 					// select every first radio in every mod
-					if (!$(this).prev().length) {
-						$(this).prop("checked", true);
+
+					var hasPrecedingSibling = inputEl.parentNode.previousElementSibling;
+
+					if (!hasPrecedingSibling || (hasPrecedingSibling && hasPrecedingSibling.nodeName === "H4")) {
+						inputEl.checked = true;
 					}
 				} else {
 					// select appropriate inputs from prefs
 					if (theBoard && theBoard.mod && theBoard.mod[typeId] && theBoard.mod[typeId] === modId) {
-						$(this).prop("checked", true);
+						inputEl.checked = true;
 					}
 				}
+
+				inputEl.addEventListener ("change", formChanged, false);
 //					console.log( index + ": " + $( this ).text() );
 			});
 
-			if (boardModInputs[0] && boardModInputs[0].form) {
-				var formEl = boardModInputs[0].form;
-				formData = getFormFields (formEl);
-			}
+			formData = getFormFields (boardModForm);
 
 		// }, 100);
 
 		// WTF: brackets have no option to prevent dialog close
 		// I can use autodismiss: false, but this is not works, really
 		// WTF: also, you can't do anything with app with modal window open. even quit app!!!
-
-
-		boardModInputs.change (function() {
-			var formEl = $(this)[0].form;
-			formData = getFormFields (formEl);
-//			console.log (formData);
-		});
-
 
 	}
 
