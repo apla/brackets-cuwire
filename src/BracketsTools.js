@@ -19,7 +19,7 @@ define(function (require, exports, module) {
 			if (err)
 				return;
 			var editor = EditorManager.getCurrentFullEditor ();
-			console.log (line, ch);
+//			console.log (line, ch);
 			if (editor.getFile().fullPath !== fileObj.fullPath) {
 				CommandManager.execute(Commands.FILE_OPEN, fileObj).done(function () {
 					var editor = EditorManager.getFocusedEditor();
