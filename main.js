@@ -170,7 +170,8 @@ define(function (require, exports, module) {
 
 		var boardMeta = this.platforms[platformName].boards[boardId];
 		messageData.mods = boardMeta.mods;
-		messageData.modsCount = boardMeta.mods.length;
+		if (boardMeta.mods)
+			messageData.modsCount = boardMeta.mods.length;
 
 		// imageOK is null when image not found, is undefined when image loading
 		// and true if image cached successfully
