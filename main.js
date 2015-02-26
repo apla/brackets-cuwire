@@ -507,16 +507,23 @@ define(function (require, exports, module) {
 						return;
 					}
 
+					var boardUSBDesc = {
+						platform: platformName,
+						board:    {
+							id: boardId,
+							name: boardMeta.name
+						}
+					};
+
 					var usbIdIdx = 0;
 					while (boardMeta["vid."+usbIdIdx]) {
 						var usbPair = [boardMeta["vid."+usbIdIdx], boardMeta["pid."+usbIdIdx]].join (':');
-						self.boardUSBMatch[usbPair] = {
-							platform: platformName,
-							board:    {
-								id: boardId,
-								name: boardMeta.name
-							}
-						};
+						if (self.boardUSBMatch[usbPair]) {
+							self.boardUSBMatch[usbPair].alt[boardId] = boardUSBDesc;
+						} else {
+							self.boardUSBMatch[usbPair] = boardUSBDesc;
+							self.boardUSBMatch[usbPair].alt = {};
+						}
 						usbIdIdx ++;
 					}
 
