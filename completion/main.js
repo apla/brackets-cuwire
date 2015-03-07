@@ -256,7 +256,8 @@ define(function (require, exports, module) {
 	function checkSelectionContext (hostEditor, pos) {
 		// Only provide a editor when cursor is in proper content
 		// console.log ("inline editor mode:", hostEditor.getModeForSelection());
-		if (hostEditor.getModeForSelection() !== "text/x-c++src") {
+		var modeForSelection = hostEditor.getModeForSelection();
+		if (modeForSelection !== "text/x-c++src" && modeForSelection !== "text/x-csrc") {
 			return null;
 		}
 
@@ -452,7 +453,8 @@ define(function (require, exports, module) {
 
 		var lastCommentBeforeFunction = 0;
 
-		var functionRe = /^([\s\n\r]*)((unsigned|signed|static)[\s\n\r]+)?(void|int|char|short|long|float|double|word|bool)[\s\n\r]+(\w+\:\:)?(\w+)[\s\n\r]*\(([^\)]*)\)[\s\n\r]*\{/gm;
+		var functionRe = /^([\s\n\r]*)((\w+)[\s\n\r]+)?(\w+(?:\:\:\w+)?(?:\<\w+(?:\:\:\w+)?\>)?[&*]?)[\s\n\r]+(\w+\:\:)?(\w+)[\s\n\r]*\(([^\)]*)\)[\s\n\r]*\{/gm;
+//		var functionRe = /^([\s\n\r]*)((unsigned|signed|static)[\s\n\r]+)?(void|int|char|short|long|float|double|word|bool)[\s\n\r]+(\w+\:\:)?(\w+)[\s\n\r]*\(([^\)]*)\)[\s\n\r]*\{/gm;
 		while ((matchArray = functionRe.exec (source)) !== null) {
 			var skip = false;
 			// TODO: comments stored in
