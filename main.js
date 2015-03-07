@@ -374,12 +374,12 @@ define(function (require, exports, module) {
 //				console.log ('board image load done', arguments);
 				boardMeta.imageOk = true;
 			}, false);
-			bi.addEventListener ('error', function () {
-				console.log ('board image file found, but got error on loading', arguments);
+			bi.addEventListener ('error', function (err) {
+				console.log ('board image file found, but got error on loading', boardImageUrl, err);
 				boardMeta.imageOk = null;
 			}, false);
-			bi.addEventListener ('abort', function () {
-				console.log ('board image file found, but got error on loading', arguments);
+			bi.addEventListener ('abort', function (err) {
+				console.log ('board image file found, but loading aborted', boardImageUrl, err);
 				boardMeta.imageOk = null;
 			}, false);
 			bi.src = encodeURI (boardImageUrl);
