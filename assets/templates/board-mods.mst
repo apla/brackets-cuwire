@@ -6,15 +6,16 @@
 				<li class="board-image-tab {{imageActive}}"><a href="#board-image-tab" data-toggle="tab">Image</a></li>
 			</ul>
 		</div>
-		<h1 class="dialog-title">{{{title}}}</h1>
+		<h1 class="dialog-title">{{{boardTitle}}}</h1>
 	</div>
 	<div class="modal-body">
 		<div class="dialog-message">
 			<div class="tab-content" style="height: 400px;">
 				<div class="tab-pane {{infoActive}}" id="board-info-tab">
+					<h3>Board id: {{{boardId}}}</h3>
 					<h3>
-						{{#modsCount}}Select board modification:{{/modsCount}}
-						{{^mods}}Board has no modifications{{/mods}}
+						{{#modsCount}}Board menu:{{/modsCount}}
+						{{^mods}}No menu for this board{{/mods}}
 					</h3>
 					<form id="cuwire-board-mod">
 					{{#mods}}

@@ -179,9 +179,10 @@ define(function (require, exports, module) {
 			messageData.images.push ({src: boardMeta.imageUrl});
 		}
 
-		messageData.dlgClass = 'cuwire-board-image';
-		messageData.title    = boardMeta.name;
-		messageData.buttons  = [{
+		messageData.dlgClass    = 'cuwire-board-image';
+		messageData.boardTitle = boardMeta.name;
+		messageData.boardId    = boardId;
+		messageData.buttons    = [{
 			className: Dialogs.DIALOG_BTN_CLASS_PRIMARY,
 			id: Dialogs.DIALOG_BTN_OK,
 			text: Strings.OK
