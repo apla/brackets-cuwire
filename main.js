@@ -424,7 +424,10 @@ define(function (require, exports, module) {
 	}
 
 	CuWireExt.prototype.getBoardMeta = function () {
-		// TODO: show spinner indicator
+
+		var panelLoader = document.querySelector ('#cuwire-panel .table-container');
+
+		panelLoader.classList.add ('loading');
 
 		var self = this;
 
@@ -576,10 +579,13 @@ define(function (require, exports, module) {
 
 			localStorage.boardUSBMatch = JSON.stringify (self.boardUSBMatch);
 
+			panelLoader.classList.remove ('loading');
+
 			self.setBoard();
 		}).fail(function (err) {
 			// TODO: show error indicator
 			console.error("[brackets-cuwire-node] failed to run cuwire.getBoardMeta, error:", err);
+			panelLoader.classList.remove ('loading');
 		});
 
 	}

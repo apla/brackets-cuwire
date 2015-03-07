@@ -189,3 +189,11 @@ form#cuwire-board-mod label {
 .cuwire-board-image .dialog-message {
 	padding: 15px;
 }
+
+#cuwire-panel .table-container.loading {
+	background: url(i/loading.svg) 50% 50% / 40px 40px no-repeat transparent;
+}
+
+#cuwire-panel .table-container {
+	background-image: none;
+}
