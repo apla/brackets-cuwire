@@ -210,9 +210,9 @@ define(function (require, exports, module) {
 			}
 		}).bind (this));
 
-		var boardImg = document.querySelector ('#board-image-tab img');
+		var boardImg = document.querySelector ('#board-image-tab object');
 		if (boardImg) {
-			boardImg.style.height = boardImg.parentElement.parentElement.clientHeight - 30 + 'px';
+			boardImg.style.height = boardImg.parentElement.parentElement.clientHeight - 60 + 'px';
 			boardImg.style.margin =  "0 " + parseInt((boardImg.parentElement.parentElement.clientWidth - boardImg.width)/2) + "px";
 		}
 
