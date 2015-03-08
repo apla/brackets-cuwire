@@ -190,6 +190,12 @@ form#cuwire-board-mod label {
 	padding: 15px;
 }
 
+.cuwire-board-image object {
+	max-width: 100%;
+	max-height: 100%;
+	height: 100%;
+}
+
 #cuwire-panel .table-container.loading {
 	background: url(i/loading.svg) 50% 50% / 40px 40px no-repeat transparent;
 }
