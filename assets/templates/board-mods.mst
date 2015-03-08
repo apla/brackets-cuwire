@@ -22,10 +22,12 @@
 						<fieldset>
 							<h4>{{typeTitle}}</h4>
 							{{#modList}}
+							{{#modTitle}}
 							<div>
 								<input type="radio" id="{{typeId}}{{modId}}" name="{{typeId}}" value="{{modId}}"/>
 								<label for="{{typeId}}{{modId}}">{{modTitle}}</label>
 							</div>
+							{{/modTitle}}
 							{{/modList}}
 						</fieldset>
 
@@ -35,7 +37,9 @@
 				</div>
 				<div class="tab-pane {{imageActive}}" id="board-image-tab">
 					{{#images}}
-					<img src="{{src}}" />
+					<object data="{{src}}" type="image/svg+xml">
+						<!--img src="yourfallback.jpg" /-->
+					</object>
 					{{/images}}
 					{{^images}}
 					<h3>No image found!</h3>
