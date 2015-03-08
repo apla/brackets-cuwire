@@ -18,8 +18,9 @@
 	},
 
 	"scripts": {
-		"prepare-binaries": ""
 		"archive-old": "git archive --format zip -o release/${npm_package_name}-${npm_package_version}.zip master",
 		"archive": "git-archive-all --prefix='' release/${npm_package_name}-${npm_package_version}.zip",
+		"prepare-binaries": "",
+		"xxx": "set"
 	}
 }

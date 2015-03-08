@@ -448,8 +448,8 @@ define(function (require, exports, module) {
 //		}
 
 		var options = {
-			debug: true
-
+			debug: prefs.get ('debug'),
+			verbose: prefs.get ('verbose')
 		};
 
 		this.domain.exec("getHardware", locations, [], options)
