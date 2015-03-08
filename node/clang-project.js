@@ -1,4 +1,9 @@
-var libclang = require('libclang');
+var libclang = {};
+try {
+	require('libclang');
+} catch (err) {
+	return;
+}
 
 var Index  = libclang.Index,
 	Cursor = libclang.Cursor,
