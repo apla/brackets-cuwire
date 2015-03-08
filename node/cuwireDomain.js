@@ -95,6 +95,15 @@
 			cb (err);
 		});
 
+		compiler.on ('failed', function () {
+
+//			console.log (paint.cuwire (), paint.error ("failed:", buildMeta.folder));
+//
+//			cb (true, buildMeta.folder, compiler);
+		});
+
+		compiler.start ();
+
 	}
 
 	function upload (params) {
