@@ -1,0 +1,279 @@
+{
+	"cuwire": {
+		"meta": {
+			"reference": ["connector25", "connector26"],
+			"labelOffsetMulX": 1
+		}
+	},
+	"connector20": {
+		"side": "left",
+		"fn": {
+			"analog": "A4",
+			"i2c": "SCL"
+		},
+		"fnlong": {
+			"pin": 27,
+			"pcint": "PCINT12",
+			"adc": "ADC4"
+		}
+	},
+	"connector21": {
+		"side": "left",
+		"fn": {
+			"analog": "A5",
+			"i2c": "SDA"
+		},
+		"fnlong": {
+			"pin": 28,
+			"pcint": "PCINT13",
+			"adc": "ADC5"
+		}
+	},
+	"connector25": {
+		"side": "right",
+		"fn": {
+			"power": "RAW"
+		}
+	},
+	"connector26": {
+		"side": "right",
+		"fn": {
+			"gnd": "GROUND"
+		}
+	},
+	"connector27": {
+		"side": "right",
+		"fn": {
+			"pin": 29,
+			"system": "RESET",
+			"pcint": "PCINT14"
+		}
+	},
+	"connector28": {
+		"side": "right",
+		"fn": {
+			"power": "VCC"
+		}
+	},
+	"connector29": {
+		"side": "right",
+		"fn": {
+			"pin": 26,
+			"digital": "17",
+			"analog": "A3",
+			"pcint": "PCINT11",
+			"adc": "ADC3"
+		}
+	},
+	"connector30": {
+		"side": "right",
+		"fn": {
+			"pin": 25,
+			"digital": "16",
+			"analog": "A2",
+			"pcint": "PCINT10",
+			"adc": "ADC2"
+		}
+	},
+	"connector31": {
+		"side": "right",
+		"fn": {
+			"pin": 24,
+			"digital": "15",
+			"analog": "A1",
+			"pcint": "PCINT9",
+			"adc": "ADC1"
+		}
+	},
+	"connector32": {
+		"side": "right",
+		"fn": {
+			"pin": 23,
+			"digital": "14",
+			"analog": "A0",
+			"pcint": "PCINT8",
+			"adc": "ADC0"
+		}
+	},
+	"connector33": {
+		"side": "right",
+		"fn": {
+			"pin": 17,
+			"digital": "13",
+			"spi": "SCK",
+			"pcint": "PCINT5",
+			"led": "LED"
+		}
+	},
+	"connector34": {
+		"side": "right",
+		"fn": {
+			"pin": 16,
+			"digital": "12",
+			"spi": "MISO",
+			"pcint": "PCINT4"
+		}
+	},
+	"connector35": {
+		"side": "right",
+		"fn": {
+			"pin": 15,
+			"digital": "11",
+			"spi": "MOSI",
+			"pcint": "PCINT3"
+		},
+		"fnlong": {
+			"timerpin": "OC2A"
+		},
+		"flags": {
+			"pwm": true
+		}
+	},
+	"connector36": {
+		"side": "right",
+		"fn": {
+			"pin": 14,
+			"digital": "10",
+			"spi": "SS",
+			"pcint": "PCINT2"
+		},
+		"fnlong": {
+			"timerpin": "OC1B"
+		},
+		"flags": {
+			"pwm": true
+		}
+	},
+	"connector37": {
+		"side": "left",
+		"fn": {
+			"pin": 13,
+			"digital": "9",
+			"pcint": "PCINT1"
+		},
+		"fnlong": {
+			"timerpin": "OC1A"
+		},
+		"flags": {
+			"pwm": true
+		}
+	},
+	"connector38": {
+		"side": "left",
+		"fn": {
+			"pin": 12,
+			"digital": "8",
+			"pcint": "PCINT0"
+		}
+	},
+	"connector39": {
+		"side": "left",
+		"fn": {
+			"pin": 11,
+			"digital": "7",
+			"pcint": "PCINT23"
+		},
+		"fnlong": {
+			"comparator": "AIN1"
+		}
+	},
+	"connector40": {
+		"side": "left",
+		"fn": {
+			"pin": 10,
+			"digital": "6",
+			"pcint": "PCINT22"
+		},
+		"fnlong": {
+			"comparator": "AIN0",
+			"timerpin": "OC0A"
+		},
+		"flags": {
+			"pwm": true
+		}
+	},
+	"connector41": {
+		"side": "left",
+		"fn": {
+			"pin": 9,
+			"digital": "5",
+			"pcint": "PCINT21"
+		},
+		"fnlong": {
+			"timercounter": "T1"
+		},
+		"flags": {
+			"pwm": true
+		}
+	},
+	"connector42": {
+		"side": "left",
+		"fn": {
+			"pin": 2,
+			"digital": "4",
+			"pcint": "PCINT20"
+		},
+		"fnlong": {
+			"timercounter": "T0",
+			"xck": "XCK"
+		}
+	},
+
+	"connector43": {
+		"side": "left",
+		"fn": {
+			"pin": 1,
+			"digital": "3",
+			"int": "INT1",
+			"pcint": "PCINT19"
+		},
+		"fnlong": {
+			"timerpin": "OC2B"
+		},
+		"flags": {
+			"pwm": true
+		}
+	},
+	"connector44": {
+		"side": "left",
+		"fn": {
+			"pin": 32,
+			"digital": "2",
+			"int": "INT0",
+			"pcint": "PCINT18"
+		}
+	},
+	"connector45": {
+		"side": "left",
+		"fn": {
+			"gnd": "GROUND"
+		}
+	},
+	"connector46": {
+		"side": "left",
+		"fn": {
+			"pin": 29,
+			"system": "RESET",
+			"pcint": "PCINT14"
+		}
+	},
+	"connector47": {
+		"side": "left",
+		"fn": {
+			"pin": 2,
+			"digital": "0",
+			"uart": "RX",
+			"pcint": "PCINT16"
+		}
+	},
+	"connector48": {
+		"side": "left",
+		"fn": {
+			"pin": 3,
+			"digital": "1",
+			"uart": "TX",
+			"pcint": "PCINT17"
+		}
+	}
+
+}
