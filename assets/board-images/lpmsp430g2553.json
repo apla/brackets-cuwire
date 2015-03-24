@@ -1,0 +1,172 @@
+{
+	"cuwire": {
+		"meta": {
+			"reference": ["connector9", "connector8"],
+			"labelOffsetMulX": 1
+		}
+	},
+	"connector9": {
+		"side": "left",
+		"fn": {
+			"pin": 1,
+			"power": "VCC"
+		}
+	},
+	"connector8": {
+		"side": "left",
+		"fn": {
+			"pin": 2,
+			"digital": "P1_0",
+			"analog": "A0",
+			"led": "RED_LED"
+		}
+	},
+	"connector7": {
+		"side": "left",
+		"fn": {
+			"pin": 3,
+			"digital": "P1_1",
+			"analog": "A1",
+			"uart": "TXD"
+		}
+	},
+	"connector6": {
+		"side": "left",
+		"fn": {
+			"pin": 4,
+			"digital": "P1_2",
+			"analog-rw": "A2",
+			"uart": "RXD"
+		}
+	},
+	"connector5": {
+		"side": "left",
+		"fn": {
+			"pin": 5,
+			"digital": "P1_3",
+			"analog": "A3",
+			"button": "PUSH2"
+		}
+	},
+	"connector4": {
+		"side": "left",
+		"fn": {
+			"pin": 6,
+			"digital": "P1_4",
+			"analog": "A4"
+		}
+	},
+	"connector3": {
+		"side": "left",
+		"fn": {
+			"pin": 7,
+			"digital": "P1_5",
+			"analog": "A5",
+			"spi": "SCK"
+		}
+	},
+	"connector2": {
+		"side": "left",
+		"fn": {
+			"pin": 8,
+			"digital": "P2_0",
+			"spi": "CS"
+		}
+	},
+	"connector1": {
+		"side": "left",
+		"fn": {
+			"pin": 9,
+			"digital": "P2_1",
+			"analog-rw": "P2_1"
+		}
+	},
+	"connector0": {
+		"side": "left",
+		"fn": {
+			"pin": 10,
+			"digital": "P2_2",
+			"analog-rw": "P2_2"
+		}
+	},
+	"connector19": {
+		"side": "right",
+		"fn": {
+			"pin": 20,
+			"gnd": "GND"
+		}
+	},
+	"connector18": {
+		"side": "right",
+		"fn": {
+			"pin": 19,
+			"digital": "P2_6",
+			"system": "XIN"
+		},
+		"note": "P2_6 can be used for analogWrite with g2553, but digital only for g2452"
+	},
+	"connector17": {
+		"side": "right",
+		"fn": {
+			"pin": 18,
+			"digital": "P2_7",
+			"system": "XOUT"
+		}
+	},
+	"connector16": {
+		"side": "right",
+		"fn": {
+			"pin": 17,
+			"system": "TEST"
+		}
+	},
+	"connector15": {
+		"side": "right",
+		"fn": {
+			"pin": 16,
+			"system": "RESET"
+		}
+	},
+	"connector14": {
+		"side": "right",
+		"fn": {
+			"pin": 15,
+			"digital": "P1_7",
+			"analog": "A7",
+			"i2c": "SDA",
+			"spi": "MISO"
+		}
+	},
+	"connector13": {
+		"side": "right",
+		"fn": {
+			"pin": 14,
+			"digital": "P1_6",
+			"analog-rw": "A6",
+			"i2c": "SCL",
+			"spi": "MOSI",
+			"led": "GREEN_LED"
+		}
+	},
+	"connector12": {
+		"side": "right",
+		"fn": {
+			"pin": 13,
+			"digital": "P2_5"
+		}
+	},
+	"connector11": {
+		"side": "right",
+		"fn": {
+			"pin": 12,
+			"digital": "P2_4"
+		}
+	},
+	"connector10": {
+		"side": "right",
+		"fn": {
+			"pin": 11,
+			"digital": "P2_3"
+		}
+	}
+}
